@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Singularity - Araç Güvenlik Operasyon Merkezi</title>
+    <meta name="description" content="Bağlı ve otonom araç filolarına yönelik yapay zeka destekli güvenlik operasyon merkezi">
+    <meta name="keywords" content="araç güvenliği, siber güvenlik, otonom araçlar, yapay zeka, güvenlik operasyonları, araç filası yönetimi">
+    <meta name="theme-color" content="#2c3e72">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Leaflet.js for OpenStreetMap integration -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <!-- Leaflet.markercluster for vehicle clustering -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    <!-- Apple touch icons -->
+    <link rel="apple-touch-icon" href="images/icon-192.png">
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <i class="fas fa-car-alt"></i>
+                <h2>SİNGULARİTY</h2>
+            </div>
+            <div class="loading-spinner">
+                <div class="spinner-ring"></div>
+            </div>
+            <p>Araç Güvenlik Operasyon Merkezi başlatılıyor...</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Header & Navigation -->
+        <header>
+            <div class="logo-container">
+                <h1><i class="fas fa-car-alt"></i> SİNGULARİTY</h1>
+                <p class="tagline">Yapay Zeka Destekli Araç Güvenlik Operasyonları</p>
+            </div>
+            
+            <!-- Hamburger Menu Button -->
+            <button class="hamburger-menu" id="hamburger-menu" aria-label="Navigasyon menüsünü aç/kapat">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+            
+            <!-- Navigation -->
+            <nav class="nav-menu" id="nav-menu">
+                <ul>
+                    <li><a href="#dashboard" class="active">Araç SOC</a></li>
+                    <li><a href="#data-flow">Veri Akışı</a></li>
+                    <li><a href="#features">Özellikler</a></li>
+                    <li><a href="#about">Hakkında</a></li>
+                    <li><a href="#contact" class="btn-contact">İletişim</a></li>
+                </ul>
+            </nav>
+            
+            <!-- Mobile Navigation Overlay -->
+            <div class="nav-overlay" id="nav-overlay"></div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Otonom Araç Güvenliği</h2>
+                <p>Bağlı araç filoları için yapay zeka destekli güvenlik operasyon merkezi</p>
+                <div class="hero-buttons">
+                    <a href="#dashboard" class="btn-primary">Filo Kontrol Paneli</a>
+                    <a href="#demo" class="btn-secondary">Demo Talep Et</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vehicle SOC Dashboard -->
+        <section id="dashboard" class="dashboard">
+            <div class="section-header">
+                <h2>ARAÇ GÜVENLİK OPERASYON MERKEZİ</h2>
+                <p>Otonom araçlar için gerçek zamanlı tehdit tespiti ve müdahale</p>
+            </div>
+            
+            <div class="dashboard-grid">
+                <!-- Fleet Map Visualization -->
+                <div class="dashboard-item world-map">
+                    <div class="dashboard-header">
+                        <h3>Küresel Filo Haritası</h3>
+                        <div class="dashboard-controls">
+                            <span class="time-display">Canlı</span>
+                            <div class="control-buttons">
+                                <button><i class="fas fa-expand"></i></button>
+                                <button><i class="fas fa-cog"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="map-container" id="threat-map">
+                        <!-- Map will be rendered here by JavaScript -->
+                    </div>
+                    <div class="threat-stats">
+                        <div class="stat-item">
+                            <span class="stat-value" id="active-threats">26</span>
+                            <span class="stat-label">Aktif Uyarılar</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="mitigated-threats">894</span>
+                            <span class="stat-label">Bugün Çözülen</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="response-time">0.18s</span>
+                            <span class="stat-label">Ort. Yanıt</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Vehicle Systems Monitoring -->
+                <div class="dashboard-item network-anomaly">
+                    <div class="dashboard-header">
+                        <h3>Araç Sistemleri İzleyici</h3>
+                        <div class="dashboard-controls">
+                            <span class="time-display">Gerçek Zamanlı</span>
+                            <div class="control-buttons">
+                                <button><i class="fas fa-expand"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="network-anomaly-container" id="network-anomaly-map">
+                        <!-- Vehicle Systems Map will be rendered by JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Vehicle Security Incidents -->
+                <div class="dashboard-item threat-intel">
+                    <div class="dashboard-header">
+                        <h3>Güvenlik Olayları</h3>
+                        <div class="dashboard-controls">
+                            <span class="time-display">Güncellendi</span>
+                            <div class="control-buttons">
+                                <button><i class="fas fa-filter"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-container" id="threat-intel-timeline">
+                        <!-- Timeline will be populated by JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Regulatory Compliance -->
+                <div class="dashboard-item compliance">
+                    <div class="dashboard-header">
+                        <h3>Mevzuat Uyumluluğu</h3>
+                        <div class="dashboard-controls">
+                            <span class="time-display">Aylık Rapor</span>
+                            <div class="control-buttons">
+                                <button><i class="fas fa-file-pdf"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="compliance-container" id="compliance-scores">
+                        <!-- Compliance scores will be populated by JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- AI Learning Metrics -->
+                <div class="dashboard-item ai-learning">
+                    <div class="dashboard-header">
+                        <h3>YZ Model Performansı</h3>
+                        <div class="dashboard-controls">
+                            <span class="time-display">Son 9 Ay</span>
+                            <div class="control-buttons">
+                                <button><i class="fas fa-sliders-h"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ai-learning-container" id="ai-learning-metrics">
+                        <!-- AI Learning Metrics will be populated by JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Vehicle Security Agents -->
+                <div class="dashboard-item ai-agents">
+                    <div class="dashboard-header">
+                        <h3>Araç Güvenlik Ajanları</h3>
+                        <div class="dashboard-controls">
+                            <span class="time-display">Canlı</span>
+                            <div class="control-buttons">
+                                <button><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ai-agent-metrics" id="ai-agent-metrics">
+                        <!-- AI Agent cards will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Attack Vector Distribution -->
+                <div class="dashboard-item attack-vectors">
+                    <div class="dashboard-header">
+                        <h3>Saldırı Vektörü Dağılımı</h3>
+                        <div class="dashboard-controls">
+                            <span class="time-display">Son 24s</span>
+                            <div class="control-buttons">
+                                <button><i class="fas fa-filter"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="attack-vector-container">
+                        <canvas id="attack-vector-chart" data-lazy-init="true"></canvas>
+                    </div>
+                </div>
+
+                <!-- Weather & Location Intelligence -->
+                <div class="dashboard-item weather-intelligence">
+                    <div class="dashboard-header">
+                        <h3>Hava Durumu ve Konum Zekası</h3>
+                        <div class="dashboard-controls">
+                            <span class="time-display">Canlı</span>
+                            <div class="control-buttons">
+                                <button><i class="fas fa-sync-alt"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="weather-container" id="weather-container">
+                        <div class="weather-loading">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <span>Hava durumu verileri yükleniyor...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Real-time CAN Bus Analysis -->
+                <div class="dashboard-item log-analysis">
+                    <div class="dashboard-header">
+                        <h3>CAN Bus Analizi</h3>
+                        <div class="dashboard-controls">
+                            <span class="time-display">Canlı</span>
+                            <div class="control-buttons">
+                                <button><i class="fas fa-terminal"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="log-analysis-container" id="log-analysis">
+                        <!-- Log entries will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Key Security Metrics -->
+                <div class="dashboard-item enhanced-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-microchip"></i></div>
+                        <div class="stat-title">ECU Anomalileri</div>
+                        <div class="stat-value">4</div>
+                        <div class="stat-trend">
+                            <i class="fas fa-arrow-down"></i>
+                            <span>Geçen haftaya göre %8</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-brain"></i></div>
+                        <div class="stat-title">YZ Tespit Oranı</div>
+                        <div class="stat-value">99.8%</div>
+                        <div class="stat-trend">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>%1.2 iyileşme</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <div class="stat-title">Yanıt Süresi</div>
+                        <div class="stat-value">0.18s</div>
+                        <div class="stat-trend">
+                            <i class="fas fa-arrow-down"></i>
+                            <span>%15 daha hızlı</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Vehicle Alerts -->
+                <div class="dashboard-item threat-detection">
+                    <div class="dashboard-header">
+                        <h3>Araç Uyarıları</h3>
+                        <div class="dashboard-controls">
+                            <div class="control-buttons">
+                                <button><i class="fas fa-expand"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="threat-list" id="threat-feed">
+                        <!-- Threat items will be populated by JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Security Agent Performance -->
+                <div class="dashboard-item agent-performance">
+                    <div class="dashboard-header">
+                        <h3>Güvenlik Ajanı Performansı</h3>
+                        <div class="dashboard-controls">
+                            <span class="time-display">Son 24s</span>
+                            <div class="control-buttons">
+                                <button><i class="fas fa-sync-alt"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="performance-metrics">
+                        <div class="metric-item">
+                            <div class="metric-info">
+                                <h4>CAN Saldırı Tespiti</h4>
+                                <span class="metric-percentage">98.2%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 98.2%"></div>
+                            </div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-info">
+                                <h4>V2X İletişim Güvenliği</h4>
+                                <span class="metric-percentage">97.5%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 97.5%"></div>
+                            </div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-info">
+                                <h4>OTA Güncelleme Koruması</h4>
+                                <span class="metric-percentage">99.9%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 99.9%"></div>
+                            </div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-info">
+                                <h4>Sensör Veri Bütünlüğü</h4>
+                                <span class="metric-percentage">96.3%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 96.3%"></div>
+                            </div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-info">
+                                <h4>Anomali Tespiti</h4>
+                                <span class="metric-percentage">98.7%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 98.7%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Flow Architecture Section -->
+        <section id="data-flow" class="data-flow-section">
+            <div class="section-header">
+                <h2>VERİ AKIŞ MİMARİSİ</h2>
+                <p>Uçtan uca güvenlik veri işleme hattı</p>
+            </div>
+            
+            <div class="data-flow-container">
+                <!-- Data Sources -->
+                <div class="data-sources">
+                    <h3>Veri Kaynakları</h3>
+                    <div class="source-item">
+                        <div class="source-icon">
+                            <i class="fas fa-car-side"></i>
+                        </div>
+                        <div class="source-label">Araçlar</div>
+                        <div class="data-stream vehicles-stream"></div>
+                    </div>
+                    <div class="source-item">
+                        <div class="source-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <div class="source-label">Uygulama Sunucuları</div>
+                        <div class="data-stream app-servers-stream"></div>
+                    </div>
+                    <div class="source-item">
+                        <div class="source-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div class="source-label">Mobil Uygulama</div>
+                        <div class="data-stream mobile-app-stream"></div>
+                    </div>
+                </div>
+                
+                <!-- Anonymization & Normalization -->
+                <div class="processing-stage anonymization-stage">
+                    <div class="stage-header">
+                        <h3>ANONİMLEŞTİRME VE NORMALİZASYON</h3>
+                    </div>
+                    <div class="stage-content">
+                        <div class="binary-overlay">
+                            <div class="binary-data">
+                                <div id="binary-animation"></div>
+                            </div>
+                            <div class="u-logo"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Big Data -->
+                <div class="processing-stage big-data-stage">
+                    <div class="stage-header">
+                        <h3>BÜYÜK VERİ</h3>
+                    </div>
+                    <div class="stage-content">
+                        <div class="big-data-item">
+                            <i class="fas fa-database"></i>
+                            <span>Normalleştirilmiş Veritabanı</span>
+                        </div>
+                        <div class="big-data-item">
+                            <i class="fas fa-cubes"></i>
+                            <span>Dijital İkizler / Bağlam</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Machine Learning -->
+                <div class="processing-stage ml-stage">
+                    <div class="stage-header">
+                        <h3>MAKİNE ÖĞRENMESİ PROFİLLEME</h3>
+                    </div>
+                    <div class="stage-content">
+                        <div class="ml-item">
+                            <div class="ml-icon vehicle-icon"></div>
+                            <span>Araç</span>
+                        </div>
+                        <div class="ml-item">
+                            <div class="ml-icon vehicle-group-icon"></div>
+                            <span>Araç Grubu</span>
+                        </div>
+                        <div class="ml-item">
+                            <div class="ml-icon mobility-service-icon"></div>
+                            <span>Mobilite Hizmeti</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Security Engines -->
+                <div class="processing-stage security-engines-stage">
+                    <div class="stage-header">
+                        <h3>GÜVENLİK MOTORLARI</h3>
+                    </div>
+                    <div class="stage-content">
+                        <div class="security-engine-badge">
+                            <div class="badge-inner">
+                                <div class="badge-icon anomaly-icon"></div>
+                                <div class="badge-icon behavior-icon"></div>
+                                <div class="badge-icon threat-icon"></div>
+                            </div>
+                        </div>
+                        <div class="singularity-threat-logo">
+                            <span class="singularity-text">SİNGULARİTY</span>
+                            <span class="threat-text">Tehdit</span>
+                            <div class="singularity-threat-tagline">Otomotiv Siber Tehdit İstihbaratı</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- API Connection to SIEM -->
+                <div class="api-connection">
+                    <div class="api-label">API</div>
+                    <div class="api-arrow"></div>
+                </div>
+                
+                <!-- Vehicle-SOC SIEM -->
+                <div class="siem-display">
+                    <div class="siem-container">
+                        <div class="siem-screen">
+                            <div class="siem-icon"></div>
+                        </div>
+                        <div class="siem-label">SIEM</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Data Flow Statistics -->
+            <div class="data-flow-stats">
+                <div class="stat-panel">
+                    <div class="stat-value" id="data-sources-count">3,642</div>
+                    <div class="stat-label">Aktif Veri Kaynağı</div>
+                </div>
+                <div class="stat-panel">
+                    <div class="stat-value" id="events-processed">12.8M</div>
+                    <div class="stat-label">Günlük İşlenen Olay</div>
+                </div>
+                <div class="stat-panel">
+                    <div class="stat-value" id="ml-accuracy">99.7%</div>
+                    <div class="stat-label">ML Tespit Doğruluğu</div>
+                </div>
+                <div class="stat-panel">
+                    <div class="stat-value" id="threats-identified">142</div>
+                    <div class="stat-label">Bugün Tespit Edilen Tehdit</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="features">
+            <div class="section-header">
+                <h2>OTOMOTİV SİBER GÜVENLİK ÖZELLİKLERİ</h2>
+                <p>Yeni nesil otonom araçlar için kapsamlı koruma</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Gerçek Zamanlı CAN Bus İzleme</h3>
+                    <p>Milisaniyeler içinde sızmaları ve anomalileri tespit etmek için araç iletişim ağlarının sürekli izlenmesi</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3>V2X Güvenliği</h3>
+                    <p>Gelişmiş şifreleme ve kimlik doğrulama protokolleri ile güvenli araç-her şey iletişimi</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-satellite"></i>
+                    </div>
+                    <h3>Güvenli OTA Güncellemeleri</h3>
+                    <p>Geri alma koruması ve bütünlük doğrulaması ile kriptografik olarak güvenli kablosuz güncellemeler</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <h3>ECU Koruması</h3>
+                    <p>Donanım seviyesi doğrulama ile tüm elektronik kontrol üniteleri için kapsamlı güvenlik</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-car-crash"></i>
+                    </div>
+                    <h3>Güvenlik Açığı Yönetimi</h3>
+                    <p>Güvenlik açıklarının istismar edilmeden önce proaktif tanımlanması ve giderilmesi</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3>Sensör Veri Koruması</h3>
+                    <p>Sahtecilik ve kurcalama saldırılarını önlemek için sensör veri bütünlüğünün YZ destekli doğrulaması</p>
+                </div>
+                
+                <!-- Adding two more features related to the architectural components -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-secret"></i>
+                    </div>
+                    <h3>Veri Anonimleştirme</h3>
+                    <p>Güvenlik analizi yeteneklerini korurken gelişmiş anonimleştirme teknikleri ile güçlü gizlilik koruması</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Makine Öğrenmesi Profilleme</h3>
+                    <p>Anomalileri ve potansiyel tehditleri tespit etmek için araç, filo ve hizmet seviyelerinde davranışsal analiz ve profilleme</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- About Section -->
+        <section id="about" class="about">
+            <div class="section-header">
+                <h2>HAKKIMIZDA</h2>
+                <p>Otomotiv siber güvenliğinin geleceğini şekillendiriyoruz</p>
+            </div>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Singularity Technologies</h3>
+                    <p>Singularity Technologies, bağlı ve otonom araçlar için yeni nesil siber güvenlik çözümleri geliştiren öncü bir teknoloji şirketidir. Yapay zeka destekli güvenlik platformumuz, araç filolarını gerçek zamanlı tehditlere karşı korur ve mobilitenin geleceğini güvence altına alır.</p>
+                    
+                    <p>Otomotiv endüstrisindeki derin uzmanlığımız ve ileri teknoloji yaklaşımımızla, araç üreticileri ve filo operatörlerine kapsamlı güvenlik çözümleri sunuyoruz. Platformumuz, CAN bus izlemeden V2X güvenliğine, OTA güncellemelerinden sensör veri korumasına kadar geniş bir yelpazede koruma sağlar.</p>
+                    
+                    <div class="company-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">500+</div>
+                            <div class="stat-label">Korunan Araç Modeli</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">2M+</div>
+                            <div class="stat-label">İzlenen Araç</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">99.8%</div>
+                            <div class="stat-label">Tehdit Tespit Oranı</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">24/7</div>
+                            <div class="stat-label">Kesintisiz İzleme</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="about-features">
+                    <h3>Neden Singularity?</h3>
+                    <div class="about-feature-list">
+                        <div class="about-feature">
+                            <i class="fas fa-rocket"></i>
+                            <div>
+                                <h4>İnovatif Teknoloji</h4>
+                                <p>En son yapay zeka ve makine öğrenmesi teknolojilerini kullanarak gelişmiş tehdit tespiti</p>
+                            </div>
+                        </div>
+                        <div class="about-feature">
+                            <i class="fas fa-shield-alt"></i>
+                            <div>
+                                <h4>Kanıtlanmış Güvenlik</h4>
+                                <p>Endüstri standardlarını aşan güvenlik protokolleri ve sürekli güncellenen koruma</p>
+                            </div>
+                        </div>
+                        <div class="about-feature">
+                            <i class="fas fa-users"></i>
+                            <div>
+                                <h4>Uzman Ekip</h4>
+                                <p>Otomotiv ve siber güvenlik alanlarında deneyimli mühendis ve araştırmacılardan oluşan ekip</p>
+                            </div>
+                        </div>
+                        <div class="about-feature">
+                            <i class="fas fa-globe"></i>
+                            <div>
+                                <h4>Küresel Ölçek</h4>
+                                <p>Dünya çapında araç filolarına hizmet veren ölçeklenebilir altyapı</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mission-vision">
+                <div class="mission">
+                    <h3>Misyonumuz</h3>
+                    <p>Bağlı ve otonom araçların siber güvenliğini sağlayarak, güvenli ve sürdürülebilir mobilite ekosistemi oluşturmak. Her araç sahibi ve yolcunun dijital tehditlere karşı korunduğu bir gelecek inşa etmek.</p>
+                </div>
+                <div class="vision">
+                    <h3>Vizyonumuz</h3>
+                    <p>Otomotiv siber güvenliğinde küresel lider olmak ve akıllı ulaşım sistemlerinin güvenli dönüşümüne öncülük etmek. Yapay zeka destekli çözümlerimizle mobilitenin geleceğini şekillendirmek.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Slogan Section -->
+        <section class="slogan-section">
+            <div class="slogan-content">
+                <h2>Mobilitenin Geleceğini Güvence Altına Alma</h2>
+                <p>YZ destekli araç güvenlik platformumuz siber tehditleri milisaniyeler içinde tespit eder ve etkisizleştirir, yolcu güvenliğini sağlar ve otonom sürüş sistemlerini tehlikeden korur.</p>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>SİNGULARİTY</h2>
+                    <p>Yapay Zeka Destekli Araç Güvenlik Operasyonları</p>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h3>Şirket</h3>
+                        <ul>
+                            <li><a href="#about">Hakkımızda</a></li>
+                            <li><a href="#careers">Kariyer</a></li>
+                            <li><a href="#contact">İletişim</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h3>Ürün</h3>
+                        <ul>
+                            <li><a href="#features">Özellikler</a></li>
+                            <li><a href="#pricing">Fiyatlandırma</a></li>
+                            <li><a href="#demo">Demo Talep Et</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h3>Kaynaklar</h3>
+                        <ul>
+                            <li><a href="#blog">Blog</a></li>
+                            <li><a href="#whitepaper">Teknik Dokümanlar</a></li>
+                            <li><a href="#documentation">Dokümantasyon</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 Singularity Technologies. Tüm hakları saklıdır.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Add notification system -->
+        <div class="notification-container" id="notification-container"></div>
+    </div>
+    
+    <script src="script.js"></script>
+    <script>
+        // Register Service Worker for PWA support
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('Service Worker registered with scope:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.error('Service Worker registration failed:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html> 
