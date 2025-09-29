@@ -65,3 +65,16 @@ This feature involves making the existing AutoGuard AI SOC website fully respons
 3. WHEN the footer is viewed THEN it SHALL display "SİNGULARİTY" branding consistently
 4. WHEN meta tags are processed THEN they SHALL reflect Singularity product information
 5. WHEN the manifest file is loaded THEN it SHALL contain Singularity branding and proper Turkish app name
+
+### Requirement 6
+
+**User Story:** As a mobile user accessing the Singularity platform, I want the loading screen to complete properly and not get stuck, so that I can access the dashboard functionality without having to refresh the page.
+
+#### Acceptance Criteria
+
+1. WHEN the website is accessed on mobile devices THEN the loading screen SHALL complete within 10 seconds maximum
+2. WHEN all dashboard components fail to initialize on mobile THEN the loading screen SHALL still hide and show an error message
+3. WHEN the loading screen displays "Araç Güvenlik Operasyon Merkezi başlatılıyor..." THEN it SHALL progress to completion without getting stuck
+4. WHEN mobile network conditions are slow THEN the loading screen SHALL show progress indicators or timeout gracefully
+5. WHEN JavaScript errors occur during mobile initialization THEN the loading screen SHALL not remain visible indefinitely
+6. WHEN the loading screen is displayed on mobile THEN it SHALL be properly responsive and not cause layout issues

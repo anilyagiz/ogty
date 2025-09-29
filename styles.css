@@ -4103,6 +4103,7 @@ canvas {
 .loading-overlay.hidden {
     opacity: 0;
     visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
 .loading-content {
@@ -4147,6 +4148,266 @@ canvas {
 .loading-content p {
     font-size: 1.1rem;
     color: var(--text-muted);
+}
+
+/* Enhanced Loading Screen Progress Indicators */
+.loading-progress-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 20px 0;
+}
+
+.loading-progress-bar {
+    width: 100%;
+    height: 8px;
+    background-color: rgba(75, 107, 220, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.loading-progress-fill {
+    height: 100%;
+    background: var(--gradient-accent);
+    border-radius: 4px;
+    transition: width 0.1s ease;
+    width: 0%;
+}
+
+.loading-status-text {
+    font-size: 1rem;
+    color: var(--text-light);
+    text-align: center;
+    margin-bottom: 20px;
+    min-height: 24px;
+}
+
+.loading-component-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.loading-component-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 0;
+    color: var(--text-muted);
+    transition: color 0.1s ease;
+}
+
+.loading-component-item.loading {
+    color: var(--accent);
+}
+
+.loading-component-item.success {
+    color: var(--success);
+}
+
+.loading-component-item.error {
+    color: var(--warning);
+}
+
+.loading-component-item i {
+    width: 16px;
+    text-align: center;
+}
+
+/* Loading Timeout Message Styles */
+.loading-timeout-message {
+    text-align: center;
+    max-width: 400px;
+}
+
+.loading-timeout-message h3 {
+    color: var(--warning);
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+.loading-timeout-message p {
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.timeout-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 25px;
+    flex-wrap: wrap;
+}
+
+.timeout-actions button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 140px;
+}
+
+.timeout-actions .btn-primary {
+    background: var(--gradient-primary);
+    color: var(--text-light);
+}
+
+.timeout-actions .btn-secondary {
+    background: transparent;
+    color: var(--text-light);
+    border: 1px solid var(--primary-light);
+}
+
+.timeout-actions button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--glow);
+}
+
+/* Fallback Content Styles */
+.fallback-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    text-align: center;
+    color: var(--text-muted);
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    border: 1px dashed rgba(75, 107, 220, 0.3);
+}
+
+.fallback-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.fallback-message i {
+    font-size: 2rem;
+    color: var(--warning);
+    opacity: 0.7;
+}
+
+.fallback-message p {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--text-muted);
+}
+
+.btn-small {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    min-width: auto;
+}
+
+/* Mobile-specific loading screen adjustments */
+@media (max-width: 767px) {
+    .loading-content {
+        padding: 20px;
+        max-width: 90%;
+    }
+    
+    .loading-logo h2 {
+        font-size: 2rem;
+    }
+    
+    .loading-logo i {
+        font-size: 2rem;
+    }
+    
+    .loading-progress-container {
+        max-width: 100%;
+    }
+    
+    .loading-component-list {
+        max-height: 150px;
+        font-size: 0.8rem;
+    }
+    
+    .loading-timeout-message {
+        max-width: 100%;
+        padding: 0 10px;
+    }
+    
+    .timeout-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .timeout-actions button {
+        width: 100%;
+        max-width: 200px;
+    }
+    
+    .fallback-content {
+        height: 150px;
+        margin: 10px;
+    }
+    
+    .fallback-message i {
+        font-size: 1.5rem;
+    }
+    
+    .fallback-message p {
+        font-size: 0.9rem;
+    }
+}
+
+/* Tablet adjustments */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .loading-progress-container {
+        max-width: 350px;
+    }
+    
+    .loading-component-list {
+        max-height: 180px;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .loading-progress-bar {
+        border: 1px solid var(--text-light);
+    }
+    
+    .loading-component-list {
+        border: 1px solid var(--text-muted);
+    }
+    
+    .fallback-content {
+        border: 2px solid var(--text-muted);
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .loading-progress-fill {
+        transition: none;
+    }
+    
+    .loading-component-item {
+        transition: none;
+    }
+    
+    .timeout-actions button {
+        transition: none;
+    }
+    
+    .timeout-actions button:hover {
+        transform: none;
+    }
 }
 
 @keyframes spin {

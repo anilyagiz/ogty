@@ -2,8 +2,11 @@
 // Main JavaScript functionality
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Handle loading overlay
+    // Handle loading overlay with enhanced error handling and timeout
     const loadingOverlay = document.getElementById('loading-overlay');
+    
+    // Initialize enhanced loading screen manager
+    initializeEnhancedLoadingScreen(loadingOverlay);
     
     // Initialize responsive navigation
     initializeResponsiveNavigation();
@@ -16,59 +19,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Add system status indicator to header
     addSystemStatusIndicator();
-    
-    // Initialize dashboard after a delay to simulate loading
-    setTimeout(() => {
-        // Initialize dashboard components
-        initializeMap();
-        initializeVehicleSystemsMonitor();
-        initializeSecurityIncidents();
-        initializeComplianceScores();
-        initializeAILearningMetrics();
-        initializeSecurityAgents();
-        initializeAttackVectorChart();
-        initializeCANBusAnalysis();
-        initializeThreatFeed();
-        initializeWeatherIntelligence();
-        
-        // Initialize new Data Flow components
-        initializeBinaryAnimation();
-        initializeDataFlowAnimations();
-        initializeDataFlowStatistics();
-
-        // Add interactive functionality to dashboard controls
-        setupDashboardControls();
-        
-        // Setup animations
-        setupAnimations();
-        
-        // Hide loading overlay
-        loadingOverlay.classList.add('hidden');
-        
-        // Initialize notification system and show welcome notification
-        initializeNotificationSystem();
-        
-        // Update real-time data every 5 seconds
-        setInterval(updateLiveData, 5000);
-        
-        // Periodically show threat notifications
-        setInterval(showRandomThreatNotification, 45000);
-        
-        // Initialize responsive data visualization handlers
-        initializeResponsiveDataVisualizationHandlers();
-        
-        // Apply Turkish formatting classes
-        applyTurkishFormattingClasses();
-        
-        // Update existing numbers to Turkish formatting
-        updateExistingNumbersToTurkish();
-        
-        // Initialize responsive and localization features
-        initializeResponsiveAndLocalizationFeatures();
-        
-        // Initialize performance monitoring
-        initializePerformanceMonitoring();
-    }, 2000);
 });
 
 // Initialize performance monitoring and optimization
@@ -180,6 +130,419 @@ function optimizeForLowMemory() {
     if (window.gc) {
         window.gc();
     }
+}
+
+// Enhanced Loading Screen Manager with timeout and error handling
+function initializeEnhancedLoadingScreen(loadingOverlay) {
+    if (!loadingOverlay) {
+        console.error('Loading overlay element not found');
+        return;
+    }
+
+    // Loading state management
+    const loadingState = {
+        startTime: Date.now(),
+        maxTimeout: 1000, // 1 second maximum
+        components: [],
+        completedComponents: 0,
+        hasErrors: false,
+        isComplete: false,
+        timeoutId: null,
+        progressUpdateId: null
+    };
+
+    // Create progress indicator elements
+    createProgressIndicators(loadingOverlay);
+    
+    // Start timeout mechanism
+    startLoadingTimeout(loadingState, loadingOverlay);
+    
+    // Start progress updates
+    startProgressUpdates(loadingState, loadingOverlay);
+    
+    // Initialize dashboard components with error handling
+    initializeDashboardWithErrorHandling(loadingState, loadingOverlay);
+}
+
+// Create progress indicators in the loading screen
+function createProgressIndicators(loadingOverlay) {
+    const loadingContent = loadingOverlay.querySelector('.loading-content');
+    if (!loadingContent) return;
+
+    // Create progress bar container
+    const progressContainer = document.createElement('div');
+    progressContainer.className = 'loading-progress-container';
+    progressContainer.innerHTML = `
+        <div class="loading-progress-bar">
+            <div class="loading-progress-fill" id="loading-progress-fill"></div>
+        </div>
+        <div class="loading-status-text" id="loading-status-text">Sistem bileşenleri başlatılıyor...</div>
+        <div class="loading-component-list" id="loading-component-list"></div>
+    `;
+
+    // Insert progress container before the existing text
+    const existingText = loadingContent.querySelector('p');
+    if (existingText) {
+        loadingContent.insertBefore(progressContainer, existingText);
+        existingText.style.display = 'none'; // Hide the original text
+    } else {
+        loadingContent.appendChild(progressContainer);
+    }
+}
+
+// Start the loading timeout mechanism
+function startLoadingTimeout(loadingState, loadingOverlay) {
+    loadingState.timeoutId = setTimeout(() => {
+        if (!loadingState.isComplete) {
+            console.warn('Loading screen timeout reached after 1 second');
+            handleLoadingTimeout(loadingState, loadingOverlay);
+        }
+    }, loadingState.maxTimeout);
+}
+
+// Handle loading timeout
+function handleLoadingTimeout(loadingState, loadingOverlay) {
+    loadingState.isComplete = true;
+    
+    // Clear any remaining intervals
+    if (loadingState.progressUpdateId) {
+        clearInterval(loadingState.progressUpdateId);
+    }
+    
+    // Immediately hide loading screen after 1 second timeout
+    hideLoadingScreen(loadingOverlay);
+    
+    // Initialize remaining systems quickly
+    try {
+        setupDashboardControls();
+        setupAnimations();
+        initializeNotificationSystem();
+        initializeResponsiveDataVisualizationHandlers();
+        applyTurkishFormattingClasses();
+        updateExistingNumbersToTurkish();
+        initializeResponsiveAndLocalizationFeatures();
+        initializePerformanceMonitoring();
+        
+        // Start real-time updates
+        setInterval(updateLiveData, 5000);
+        setInterval(showRandomThreatNotification, 45000);
+    } catch (error) {
+        console.error('Error initializing systems after timeout:', error);
+    }
+}
+
+// Show timeout recovery screen
+function showTimeoutRecoveryScreen(loadingOverlay) {
+    const loadingContent = loadingOverlay.querySelector('.loading-content');
+    if (!loadingContent) return;
+
+    loadingContent.innerHTML = `
+        <div class="loading-logo">
+            <i class="fas fa-exclamation-triangle" style="color: var(--warning);"></i>
+            <h2>SİNGULARİTY</h2>
+        </div>
+        <div class="loading-timeout-message">
+            <h3>Yükleme Zaman Aşımı</h3>
+            <p>Sistem bileşenleri yüklenirken zaman aşımı oluştu.</p>
+            <p>Temel işlevler kullanılabilir durumda.</p>
+            <div class="timeout-actions">
+                <button class="btn-primary" onclick="location.reload()">Sayfayı Yenile</button>
+                <button class="btn-secondary" onclick="continueWithBasicMode()">Temel Modda Devam Et</button>
+            </div>
+        </div>
+    `;
+}
+
+// Continue with basic mode (fallback)
+function continueWithBasicMode() {
+    const loadingOverlay = document.getElementById('loading-overlay');
+    if (loadingOverlay) {
+        hideLoadingScreen(loadingOverlay);
+    }
+    showFallbackDashboard();
+}
+
+// Start progress updates
+function startProgressUpdates(loadingState, loadingOverlay) {
+    const progressFill = document.getElementById('loading-progress-fill');
+    const statusText = document.getElementById('loading-status-text');
+    
+    loadingState.progressUpdateId = setInterval(() => {
+        if (loadingState.isComplete) {
+            clearInterval(loadingState.progressUpdateId);
+            return;
+        }
+        
+        const elapsed = Date.now() - loadingState.startTime;
+        const progress = Math.min((elapsed / loadingState.maxTimeout) * 100, 95); // Cap at 95% until complete
+        
+        if (progressFill) {
+            progressFill.style.width = `${progress}%`;
+        }
+        
+        // Update status text based on progress - faster transitions for 1-second loading
+        if (statusText) {
+            if (progress < 25) {
+                statusText.textContent = 'Başlatılıyor...';
+            } else if (progress < 50) {
+                statusText.textContent = 'Yükleniyor...';
+            } else if (progress < 75) {
+                statusText.textContent = 'Hazırlanıyor...';
+            } else {
+                statusText.textContent = 'Tamamlanıyor...';
+            }
+        }
+    }, 50); // Faster progress updates for 1-second loading
+}
+
+// Initialize dashboard components with individual error handling
+function initializeDashboardWithErrorHandling(loadingState, loadingOverlay) {
+    // Define components to initialize
+    const components = [
+        { name: 'Harita', fn: initializeMap, critical: true },
+        { name: 'Araç Sistemleri', fn: initializeVehicleSystemsMonitor, critical: false },
+        { name: 'Güvenlik Olayları', fn: initializeSecurityIncidents, critical: false },
+        { name: 'Uyumluluk Skorları', fn: initializeComplianceScores, critical: false },
+        { name: 'YZ Metrikleri', fn: initializeAILearningMetrics, critical: false },
+        { name: 'Güvenlik Ajanları', fn: initializeSecurityAgents, critical: false },
+        { name: 'Saldırı Vektörleri', fn: initializeAttackVectorChart, critical: false },
+        { name: 'CAN Bus Analizi', fn: initializeCANBusAnalysis, critical: false },
+        { name: 'Tehdit Akışı', fn: initializeThreatFeed, critical: false },
+        { name: 'Hava Durumu', fn: initializeWeatherIntelligence, critical: false },
+        { name: 'Veri Akışı', fn: initializeBinaryAnimation, critical: false },
+        { name: 'Animasyonlar', fn: initializeDataFlowAnimations, critical: false },
+        { name: 'İstatistikler', fn: initializeDataFlowStatistics, critical: false }
+    ];
+
+    loadingState.components = components;
+    
+    // Initialize components with delay and error handling
+    let componentIndex = 0;
+    const initializeNextComponent = () => {
+        if (componentIndex >= components.length || loadingState.isComplete) {
+            // All components processed, finalize loading
+            finalizeLoading(loadingState, loadingOverlay);
+            return;
+        }
+
+        const component = components[componentIndex];
+        const componentList = document.getElementById('loading-component-list');
+        
+        // Update component list display
+        if (componentList) {
+            updateComponentStatus(componentList, component.name, 'loading');
+        }
+
+        try {
+            // Initialize component with timeout
+            const componentTimeout = setTimeout(() => {
+                console.warn(`Component ${component.name} timed out`);
+                handleComponentError(component, 'timeout', loadingState);
+                proceedToNextComponent();
+            }, 50); // 50ms timeout per component for fast loading
+
+            // Try to initialize the component with faster timeout for 1-second loading
+            Promise.resolve(component.fn()).then(() => {
+                clearTimeout(componentTimeout);
+                loadingState.completedComponents++;
+                
+                if (componentList) {
+                    updateComponentStatus(componentList, component.name, 'success');
+                }
+                
+                proceedToNextComponent();
+            }).catch((error) => {
+                clearTimeout(componentTimeout);
+                console.error(`Error initializing ${component.name}:`, error);
+                handleComponentError(component, error, loadingState);
+                proceedToNextComponent();
+            });
+
+        } catch (error) {
+            console.error(`Error initializing ${component.name}:`, error);
+            handleComponentError(component, error, loadingState);
+            proceedToNextComponent();
+        }
+
+        function proceedToNextComponent() {
+            componentIndex++;
+            // Faster progression for 1-second loading
+            setTimeout(initializeNextComponent, 20);
+        }
+    };
+
+    // Start initializing components immediately for fast loading
+    setTimeout(initializeNextComponent, 100);
+}
+
+// Update component status in the loading screen
+function updateComponentStatus(componentList, componentName, status) {
+    let componentItem = componentList.querySelector(`[data-component="${componentName}"]`);
+    
+    if (!componentItem) {
+        componentItem = document.createElement('div');
+        componentItem.className = 'loading-component-item';
+        componentItem.setAttribute('data-component', componentName);
+        componentList.appendChild(componentItem);
+    }
+
+    const statusIcon = status === 'loading' ? 
+        '<i class="fas fa-spinner fa-spin"></i>' : 
+        status === 'success' ? 
+        '<i class="fas fa-check" style="color: var(--success);"></i>' : 
+        '<i class="fas fa-exclamation-triangle" style="color: var(--warning);"></i>';
+
+    componentItem.innerHTML = `${statusIcon} <span>${componentName}</span>`;
+    componentItem.className = `loading-component-item ${status}`;
+}
+
+// Handle component initialization errors
+function handleComponentError(component, error, loadingState) {
+    loadingState.hasErrors = true;
+    
+    // Log error details
+    console.error(`Component ${component.name} failed to initialize:`, error);
+    
+    // If it's a critical component, we might need to show a more prominent error
+    if (component.critical) {
+        console.warn(`Critical component ${component.name} failed to load`);
+    }
+    
+    // Update component list to show error
+    const componentList = document.getElementById('loading-component-list');
+    if (componentList) {
+        updateComponentStatus(componentList, component.name, 'error');
+    }
+}
+
+// Finalize loading process
+function finalizeLoading(loadingState, loadingOverlay) {
+    if (loadingState.isComplete) return;
+    
+    loadingState.isComplete = true;
+    
+    // Clear timeout
+    if (loadingState.timeoutId) {
+        clearTimeout(loadingState.timeoutId);
+    }
+    
+    // Clear progress updates
+    if (loadingState.progressUpdateId) {
+        clearInterval(loadingState.progressUpdateId);
+    }
+    
+    // Complete progress bar
+    const progressFill = document.getElementById('loading-progress-fill');
+    const statusText = document.getElementById('loading-status-text');
+    
+    if (progressFill) {
+        progressFill.style.width = '100%';
+    }
+    
+    if (statusText) {
+        if (loadingState.hasErrors) {
+            statusText.textContent = `Sistem hazır (${loadingState.completedComponents}/${loadingState.components.length} bileşen)`;
+        } else {
+            statusText.textContent = 'Sistem başarıyla başlatıldı!';
+        }
+    }
+    
+    // Initialize remaining systems
+    try {
+        setupDashboardControls();
+        setupAnimations();
+        initializeNotificationSystem();
+        initializeResponsiveDataVisualizationHandlers();
+        applyTurkishFormattingClasses();
+        updateExistingNumbersToTurkish();
+        initializeResponsiveAndLocalizationFeatures();
+        initializePerformanceMonitoring();
+        
+        // Start real-time updates
+        setInterval(updateLiveData, 5000);
+        setInterval(showRandomThreatNotification, 45000);
+    } catch (error) {
+        console.error('Error initializing additional systems:', error);
+    }
+    
+    // Hide loading screen immediately after completion
+    setTimeout(() => {
+        hideLoadingScreen(loadingOverlay);
+        
+        // Show success notification if there were no critical errors
+        if (!loadingState.hasErrors || loadingState.completedComponents > loadingState.components.length * 0.7) {
+            showLoadingCompleteNotification(loadingState);
+        }
+    }, 200);
+}
+
+// Hide loading screen
+function hideLoadingScreen(loadingOverlay) {
+    if (loadingOverlay) {
+        loadingOverlay.classList.add('hidden');
+        
+        // Remove from DOM after transition
+        setTimeout(() => {
+            if (loadingOverlay.parentNode) {
+                loadingOverlay.style.display = 'none';
+            }
+        }, 500);
+    }
+}
+
+// Show loading complete notification
+function showLoadingCompleteNotification(loadingState) {
+    // This will be called by the notification system if it's available
+    if (typeof showNotification === 'function') {
+        if (loadingState.hasErrors) {
+            showNotification(
+                'Sistem Kısmen Yüklendi', 
+                `${loadingState.completedComponents}/${loadingState.components.length} bileşen başarıyla yüklendi.`,
+                'warning'
+            );
+        } else {
+            showNotification(
+                'Sistem Hazır', 
+                'Singularity Araç Güvenlik Operasyon Merkezi başarıyla başlatıldı.',
+                'success'
+            );
+        }
+    }
+}
+
+// Show fallback dashboard when components fail
+function showFallbackDashboard() {
+    // Ensure basic dashboard elements are visible
+    const dashboard = document.getElementById('dashboard');
+    if (dashboard) {
+        dashboard.style.display = 'block';
+    }
+    
+    // Show a basic error message in place of failed components
+    const dashboardItems = document.querySelectorAll('.dashboard-item');
+    dashboardItems.forEach(item => {
+        // Check if the item is empty or failed to load
+        const content = item.querySelector('.map-container, canvas, .timeline-container, .compliance-container, .ai-learning-container, .ai-agent-metrics, .attack-vector-container, .weather-container, .log-analysis-container, .threat-list, .performance-metrics');
+        
+        if (content && (!content.innerHTML || content.innerHTML.trim() === '')) {
+            // Show fallback content
+            const fallbackContent = document.createElement('div');
+            fallbackContent.className = 'fallback-content';
+            fallbackContent.innerHTML = `
+                <div class="fallback-message">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <p>Bu bileşen şu anda kullanılamıyor</p>
+                    <button class="btn-secondary btn-small" onclick="location.reload()">Yeniden Dene</button>
+                </div>
+            `;
+            
+            if (content.parentNode) {
+                content.parentNode.replaceChild(fallbackContent, content);
+            }
+        }
+    });
+    
+    console.log('Fallback dashboard displayed');
 }
 
 // Initialize Binary Animation for Anonymization Stage
@@ -3461,8 +3824,12 @@ function showRandomThreatNotification() {
 
 // Initialize Global Fleet Map with OpenStreetMap
 function initializeMap() {
-    const mapContainer = document.getElementById('threat-map');
-    if (!mapContainer) return;
+    return new Promise((resolve, reject) => {
+        try {
+            const mapContainer = document.getElementById('threat-map');
+            if (!mapContainer) {
+                throw new Error('Map container not found');
+            }
 
     // Clear any existing content
     mapContainer.innerHTML = '';
@@ -4332,12 +4699,25 @@ function updateMapStats() {
             alertCountEl.textContent = visibleAlerts;
         }
     }
+    
+    // Resolve the promise when map initialization is complete
+    resolve();
+    
+    } catch (error) {
+        console.error('Error initializing map:', error);
+        reject(error);
+    }
+    });
 }
 
 // Initialize Vehicle Systems Monitor
 function initializeVehicleSystemsMonitor() {
-    const container = document.getElementById('network-anomaly-map');
-    if (!container) return;
+    return new Promise((resolve, reject) => {
+        try {
+            const container = document.getElementById('network-anomaly-map');
+            if (!container) {
+                throw new Error('Vehicle systems container not found');
+            }
     
     // Create vehicle systems diagram
     const canvas = document.createElement('canvas');
@@ -4548,12 +4928,25 @@ function drawVehicleSystems(ctx, width, height) {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'top';
     ctx.fillText('Vehicle Systems Network', centerX, 10);
+    
+    // Resolve the promise when vehicle systems monitor initialization is complete
+    resolve();
+    
+    } catch (error) {
+        console.error('Error initializing vehicle systems monitor:', error);
+        reject(error);
+    }
+    });
 }
 
 // Initialize Security Incidents Timeline with Turkish localization
 function initializeSecurityIncidents() {
-    const container = document.getElementById('threat-intel-timeline');
-    if (!container) return;
+    return new Promise((resolve, reject) => {
+        try {
+            const container = document.getElementById('threat-intel-timeline');
+            if (!container) {
+                throw new Error('Security incidents container not found');
+            }
     
     // Generate realistic incident timestamps for today
     const now = new Date();
@@ -4640,6 +5033,15 @@ function initializeSecurityIncidents() {
         `;
         
         container.appendChild(incidentElement);
+    });
+    
+    // Resolve the promise when security incidents initialization is complete
+    resolve();
+    
+    } catch (error) {
+        console.error('Error initializing security incidents:', error);
+        reject(error);
+    }
     });
 }
 
