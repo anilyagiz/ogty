@@ -2,11 +2,8 @@
 // Main JavaScript functionality
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Handle loading overlay with enhanced error handling and timeout
-    const loadingOverlay = document.getElementById('loading-overlay');
-    
-    // Initialize enhanced loading screen manager
-    initializeEnhancedLoadingScreen(loadingOverlay);
+    // Initialize all systems directly without loading screen
+    initializeAllSystems();
     
     // Initialize responsive navigation
     initializeResponsiveNavigation();
@@ -132,88 +129,27 @@ function optimizeForLowMemory() {
     }
 }
 
-// Enhanced Loading Screen Manager with timeout and error handling
-function initializeEnhancedLoadingScreen(loadingOverlay) {
-    if (!loadingOverlay) {
-        console.error('Loading overlay element not found');
-        return;
-    }
-
-    // Loading state management
-    const loadingState = {
-        startTime: Date.now(),
-        maxTimeout: 1000, // 1 second maximum
-        components: [],
-        completedComponents: 0,
-        hasErrors: false,
-        isComplete: false,
-        timeoutId: null,
-        progressUpdateId: null
-    };
-
-    // Create progress indicator elements
-    createProgressIndicators(loadingOverlay);
+// Initialize all systems directly without loading screen
+function initializeAllSystems() {
+    console.log('Singularity SOC Dashboard initializing...');
     
-    // Start timeout mechanism
-    startLoadingTimeout(loadingState, loadingOverlay);
-    
-    // Start progress updates
-    startProgressUpdates(loadingState, loadingOverlay);
-    
-    // Initialize dashboard components with error handling
-    initializeDashboardWithErrorHandling(loadingState, loadingOverlay);
-}
-
-// Create progress indicators in the loading screen
-function createProgressIndicators(loadingOverlay) {
-    const loadingContent = loadingOverlay.querySelector('.loading-content');
-    if (!loadingContent) return;
-
-    // Create progress bar container
-    const progressContainer = document.createElement('div');
-    progressContainer.className = 'loading-progress-container';
-    progressContainer.innerHTML = `
-        <div class="loading-progress-bar">
-            <div class="loading-progress-fill" id="loading-progress-fill"></div>
-        </div>
-        <div class="loading-status-text" id="loading-status-text">Sistem bileşenleri başlatılıyor...</div>
-        <div class="loading-component-list" id="loading-component-list"></div>
-    `;
-
-    // Insert progress container before the existing text
-    const existingText = loadingContent.querySelector('p');
-    if (existingText) {
-        loadingContent.insertBefore(progressContainer, existingText);
-        existingText.style.display = 'none'; // Hide the original text
-    } else {
-        loadingContent.appendChild(progressContainer);
-    }
-}
-
-// Start the loading timeout mechanism
-function startLoadingTimeout(loadingState, loadingOverlay) {
-    loadingState.timeoutId = setTimeout(() => {
-        if (!loadingState.isComplete) {
-            console.warn('Loading screen timeout reached after 1 second');
-            handleLoadingTimeout(loadingState, loadingOverlay);
-        }
-    }, loadingState.maxTimeout);
-}
-
-// Handle loading timeout
-function handleLoadingTimeout(loadingState, loadingOverlay) {
-    loadingState.isComplete = true;
-    
-    // Clear any remaining intervals
-    if (loadingState.progressUpdateId) {
-        clearInterval(loadingState.progressUpdateId);
-    }
-    
-    // Immediately hide loading screen after 1 second timeout
-    hideLoadingScreen(loadingOverlay);
-    
-    // Initialize remaining systems quickly
     try {
+        // Initialize all dashboard components directly
+        initializeMap();
+        initializeVehicleSystemsMonitor();
+        initializeSecurityIncidents();
+        initializeComplianceScores();
+        initializeAILearningMetrics();
+        initializeSecurityAgents();
+        initializeAttackVectorChart();
+        initializeCANBusAnalysis();
+        initializeThreatFeed();
+        initializeWeatherIntelligence();
+        initializeBinaryAnimation();
+        initializeDataFlowAnimations();
+        initializeDataFlowStatistics();
+        
+        // Initialize remaining systems
         setupDashboardControls();
         setupAnimations();
         initializeNotificationSystem();
@@ -226,9 +162,31 @@ function handleLoadingTimeout(loadingState, loadingOverlay) {
         // Start real-time updates
         setInterval(updateLiveData, 5000);
         setInterval(showRandomThreatNotification, 45000);
+        
+        console.log('Singularity SOC Dashboard initialized successfully');
+        
     } catch (error) {
-        console.error('Error initializing systems after timeout:', error);
+        console.error('Error initializing dashboard systems:', error);
+        // Continue with basic functionality even if some components fail
     }
+}
+
+// Loading screen functions disabled - no longer needed
+function createProgressIndicators(loadingOverlay) {
+    // Function disabled - loading screen removed
+    return;
+}
+
+// Loading timeout function disabled
+function startLoadingTimeout(loadingState, loadingOverlay) {
+    // Function disabled - loading screen removed
+    return;
+}
+
+// Loading timeout handler disabled
+function handleLoadingTimeout(loadingState, loadingOverlay) {
+    // Function disabled - loading screen removed
+    return;
 }
 
 // Show timeout recovery screen
@@ -262,37 +220,10 @@ function continueWithBasicMode() {
     showFallbackDashboard();
 }
 
-// Start progress updates
+// Progress updates function disabled
 function startProgressUpdates(loadingState, loadingOverlay) {
-    const progressFill = document.getElementById('loading-progress-fill');
-    const statusText = document.getElementById('loading-status-text');
-    
-    loadingState.progressUpdateId = setInterval(() => {
-        if (loadingState.isComplete) {
-            clearInterval(loadingState.progressUpdateId);
-            return;
-        }
-        
-        const elapsed = Date.now() - loadingState.startTime;
-        const progress = Math.min((elapsed / loadingState.maxTimeout) * 100, 95); // Cap at 95% until complete
-        
-        if (progressFill) {
-            progressFill.style.width = `${progress}%`;
-        }
-        
-        // Update status text based on progress - faster transitions for 1-second loading
-        if (statusText) {
-            if (progress < 25) {
-                statusText.textContent = 'Başlatılıyor...';
-            } else if (progress < 50) {
-                statusText.textContent = 'Yükleniyor...';
-            } else if (progress < 75) {
-                statusText.textContent = 'Hazırlanıyor...';
-            } else {
-                statusText.textContent = 'Tamamlanıyor...';
-            }
-        }
-    }, 50); // Faster progress updates for 1-second loading
+    // Function disabled - loading screen removed
+    return;
 }
 
 // Initialize dashboard components with individual error handling
