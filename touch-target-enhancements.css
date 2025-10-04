@@ -1,0 +1,433 @@
+/* Touch Target Enhancements - Ensure 44x44px Minimum Size for All Interactive Elements */
+
+/* Global touch target enhancements for mobile devices */
+@media (max-width: 767px) {
+  /* Ensure all interactive elements meet minimum touch target size */
+  button,
+  .btn,
+  .btn-primary,
+  .btn-secondary,
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"],
+  select,
+  textarea,
+  a,
+  .control-buttons button,
+  .hamburger-menu,
+  .nav-menu a,
+  .dashboard-item,
+  .feature-card,
+  .stat-card,
+  .ai-agent-card,
+  .threat-item,
+  .metric-item,
+  .compliance-item,
+  .leaflet-control-zoom a,
+  .leaflet-control-layers-toggle,
+  .search-control input,
+  .search-clear-btn,
+  .time-display,
+  .dashboard-controls button {
+    min-width: 44px;
+    min-height: 44px;
+    /* Ensure padding doesn't reduce touch target size */
+    box-sizing: border-box;
+  }
+  
+  /* Special handling for form inputs to prevent auto-zoom on iOS */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="number"] {
+    min-height: 44px;
+    font-size: 16px; /* Prevents auto-zoom on iOS */
+    padding: 12px;
+  }
+  
+  /* Enhanced touch targets for dashboard controls */
+  .control-buttons button {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 12px;
+    margin: 2px;
+    border-radius: 8px;
+  }
+  
+  /* Mobile-optimized navigation */
+  .nav-menu ul li a {
+    padding: 14px 18px;
+    font-size: 16px; /* Prevents auto-zoom on iOS */
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Hamburger menu touch target */
+  .hamburger-menu {
+    width: 48px;
+    height: 48px;
+    padding: 12px;
+  }
+  
+  /* Touch-friendly dashboard items */
+  .dashboard-item {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    padding: 20px;
+  }
+  
+  /* Enhanced touch targets for map controls */
+  .leaflet-control-zoom a {
+    min-width: 48px !important;
+    min-height: 48px !important;
+    font-size: 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  
+  .leaflet-control-layers-toggle {
+    min-width: 48px !important;
+    min-height: 48px !important;
+  }
+  
+  /* Search control touch enhancements */
+  .search-control input {
+    min-height: 48px;
+    padding: 12px 16px;
+  }
+  
+  .search-clear-btn {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 12px;
+  }
+  
+  /* Time display touch target */
+  .time-display {
+    min-height: 44px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Ensure proper spacing between touch targets */
+  .control-buttons {
+    gap: 8px;
+  }
+  
+  .nav-menu ul {
+    gap: 0;
+  }
+  
+  .nav-menu ul li {
+    border-bottom: 1px solid rgba(75, 107, 220, 0.1);
+  }
+  
+  /* Touch-friendly scrollable containers */
+  .threat-list,
+  .ai-agent-metrics,
+  .log-analysis-container,
+  .performance-metrics,
+  .timeline-container,
+  .compliance-container,
+  .ai-learning-container,
+  .network-anomaly-container,
+  .attack-vector-container {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+  
+  /* Enhanced scrollbar touch targets */
+  .threat-list::-webkit-scrollbar,
+  .ai-agent-metrics::-webkit-scrollbar,
+  .log-analysis-container::-webkit-scrollbar,
+  .performance-metrics::-webkit-scrollbar {
+    width: 12px;
+  }
+  
+  /* Touch-friendly stat items */
+  .stat-item {
+    min-height: 44px;
+    padding: 12px;
+  }
+  
+  /* Touch-friendly feature cards */
+  .feature-card {
+    padding: 20px;
+  }
+  
+  /* Touch-friendly AI agent cards */
+  .ai-agent-card {
+    padding: 16px;
+    min-height: 88px; /* Double touch target height for better usability */
+  }
+  
+  /* Touch-friendly threat items */
+  .threat-item {
+    padding: 16px;
+    min-height: 88px;
+  }
+  
+  /* Touch-friendly metric items */
+  .metric-item {
+    padding: 16px;
+    min-height: 72px;
+  }
+  
+  /* Touch-friendly compliance items */
+  .compliance-item {
+    padding: 16px;
+    min-height: 72px;
+  }
+  
+  /* Special styling for world map on mobile to make it more prominent */
+  .world-map {
+    min-height: 300px;
+    padding: 15px;
+    /* Make sure the map header is clearly visible */
+    .dashboard-header h3 {
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+    }
+  }
+}
+
+/* Tablet touch target enhancements */
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Ensure touch targets are still adequate on tablets */
+  button,
+  .btn,
+  .btn-primary,
+  .btn-secondary,
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"],
+  select,
+  .control-buttons button,
+  .hamburger-menu,
+  .nav-menu a,
+  .leaflet-control-zoom a,
+  .leaflet-control-layers-toggle,
+  .search-control input,
+  .search-clear-btn,
+  .time-display,
+  .dashboard-controls button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  
+  /* Tablet-specific adjustments */
+  .control-buttons button {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 10px;
+  }
+  
+  .nav-menu ul li a {
+    padding: 12px 16px;
+    min-height: 44px;
+  }
+  
+  .leaflet-control-zoom a {
+    min-width: 44px !important;
+    min-height: 44px !important;
+  }
+  
+  .leaflet-control-layers-toggle {
+    min-width: 44px !important;
+    min-height: 44px !important;
+  }
+  
+  .search-control input {
+    min-height: 44px;
+  }
+  
+  /* World map styling on tablet */
+  .world-map {
+    min-height: 350px;
+    padding: 20px;
+  }
+}
+
+/* Desktop touch target enhancements (for consistency) */
+@media (min-width: 1024px) {
+  /* Ensure consistent touch target sizes across all devices */
+  .control-buttons button,
+  .leaflet-control-zoom a,
+  .leaflet-control-layers-toggle,
+  .search-clear-btn,
+  .dashboard-controls button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  
+  .leaflet-control-zoom a {
+    min-width: 44px !important;
+    min-height: 44px !important;
+  }
+  
+  .leaflet-control-layers-toggle {
+    min-width: 44px !important;
+    min-height: 44px !important;
+  }
+  
+  /* World map styling on desktop */
+  .world-map {
+    min-height: 400px;
+    padding: 24px;
+  }
+}
+
+/* Touch Action Optimizations */
+button,
+.btn,
+.btn-primary,
+.btn-secondary,
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+select,
+a,
+.control-buttons button,
+.hamburger-menu,
+.nav-menu a,
+.dashboard-item,
+.feature-card,
+.stat-card,
+.ai-agent-card,
+.threat-item,
+.metric-item,
+.compliance-item,
+.leaflet-control-zoom a,
+.leaflet-control-layers-toggle,
+.search-control input,
+.search-clear-btn,
+.time-display,
+.dashboard-controls button {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  /* Hardware acceleration for smooth touch interactions */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Touch Feedback Enhancements */
+button:active,
+.btn:active,
+.btn-primary:active,
+.btn-secondary:active,
+input[type="button"]:active,
+input[type="submit"]:active,
+input[type="reset"]:active,
+select:active,
+a:active,
+.control-buttons button:active,
+.hamburger-menu:active,
+.nav-menu a:active,
+.dashboard-item:active,
+.feature-card:active,
+.stat-card:active,
+.ai-agent-card:active,
+.threat-item:active,
+.metric-item:active,
+.compliance-item:active,
+.leaflet-control-zoom a:active,
+.leaflet-control-layers-toggle:active,
+.search-clear-btn:active,
+.dashboard-controls button:active {
+  transform: scale(0.95);
+  transition: transform 0.1s ease;
+}
+
+/* Focus Management for Accessibility */
+button:focus,
+.btn:focus,
+.btn-primary:focus,
+.btn-secondary:focus,
+input[type="button"]:focus,
+input[type="submit"]:focus,
+input[type="reset"]:focus,
+select:focus,
+a:focus,
+.control-buttons button:focus,
+.hamburger-menu:focus,
+.nav-menu a:focus,
+.dashboard-item:focus,
+.feature-card:focus,
+.stat-card:focus,
+.ai-agent-card:focus,
+.threat-item:focus,
+.metric-item:focus,
+.compliance-item:focus,
+.leaflet-control-zoom a:focus,
+.leaflet-control-layers-toggle:focus,
+.search-control input:focus,
+.search-clear-btn:focus,
+.dashboard-controls button:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(0, 194, 255, 0.2);
+}
+
+/* Prevent text selection during touch interactions */
+button,
+.btn,
+.btn-primary,
+.btn-secondary,
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+select,
+.control-buttons button,
+.hamburger-menu,
+.nav-menu a,
+.dashboard-item,
+.feature-card,
+.stat-card,
+.ai-agent-card,
+.threat-item,
+.metric-item,
+.compliance-item,
+.leaflet-control-zoom a,
+.leaflet-control-layers-toggle,
+.search-clear-btn,
+.dashboard-controls button {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Allow text selection for readable content */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+li,
+td,
+th,
+.label,
+.stat-value,
+.stat-label,
+.threat-type,
+.threat-details,
+.threat-location,
+.metric-title,
+.metric-percentage,
+.compliance-info,
+.ai-agent-name,
+.ai-agent-status {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
