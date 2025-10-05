@@ -1,384 +1,318 @@
-/* Enhanced Responsive Breakpoints and Grid Layouts - Mobile-First Approach */
+/* Mobile-First Responsive Enhancements */
 
-/* CSS Custom Properties for Responsive Design */
-:root {
-  /* Breakpoint Definitions */
-  --breakpoint-xs: 320px;    /* Extra small devices (phones) */
-  --breakpoint-sm: 480px;    /* Small devices (phones) */
-  --breakpoint-md: 768px;    /* Medium devices (tablets) */
-  --breakpoint-lg: 1024px;   /* Large devices (desktops) */
-  --breakpoint-xl: 1200px;   /* Extra large devices */
-  --breakpoint-xxl: 1440px;  /* XXL devices */
-
-  /* Container Padding */
-  --container-padding-xs: 10px;
-  --container-padding-sm: 12px;
-  --container-padding-md: 15px;
-  --container-padding-lg: 20px;
-  --container-padding-xl: 25px;
-  --container-padding-xxl: 30px;
-
-  /* Grid Gaps */
-  --grid-gap-xs: 10px;
-  --grid-gap-sm: 12px;
-  --grid-gap-md: 15px;
-  --grid-gap-lg: 20px;
-  --grid-gap-xl: 25px;
-  --grid-gap-xxl: 30px;
-
-  /* Section Padding */
-  --section-padding-xs: 20px 0;
-  --section-padding-sm: 25px 0;
-  --section-padding-md: 30px 0;
-  --section-padding-lg: 40px 0;
-  --section-padding-xl: 50px 0;
-  --section-padding-xxl: 60px 0;
+/* Tab transitions - Smooth mobile experience */
+.tab-content {
+    animation: slideInUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
 }
 
-/* Mobile-First Base Styles (320px+) */
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--grid-gap-xs);
-  width: 100%;
-  padding: 0 var(--container-padding-xs);
-  grid-auto-rows: minmax(180px, auto);
-}
-
-.dashboard-item {
-  min-height: 180px;
-  padding: 15px;
-}
-
-.world-map {
-  min-height: 250px;
-  /* Make the world map full width and prominent on mobile */
-  grid-column: 1 / -1;
-}
-
-/* Extra Small Devices (320px-479px) */
-@media (min-width: 320px) and (max-width: 479px) {
-  .dashboard-grid {
-    gap: var(--grid-gap-xs);
-    padding: 0 var(--container-padding-xs);
-  }
-  
-  .dashboard-item {
-    min-height: 180px;
-    padding: 15px;
-  }
-  
-  .world-map {
-    min-height: 250px;
-    /* Full width and prominent on extra small devices */
-    grid-column: 1 / -1;
-  }
-  
-  /* Hide other dashboard items on extra small screens to make map more prominent */
-  .network-anomaly,
-  .threat-intel,
-  .compliance,
-  .ai-learning,
-  .ai-agents,
-  .attack-vectors,
-  .weather-intelligence,
-  .log-analysis,
-  .enhanced-stats,
-  .threat-detection,
-  .agent-performance {
-    display: none;
-  }
-}
-
-/* Small Devices (480px-767px) */
-@media (min-width: 480px) and (max-width: 767px) {
-  :root {
-    --grid-gap: var(--grid-gap-sm);
-    --section-padding: var(--section-padding-sm);
-    --container-padding: var(--container-padding-sm);
-  }
-  
-  .dashboard-grid {
-    gap: var(--grid-gap-sm);
-    padding: 0 var(--container-padding-sm);
-  }
-  
-  .dashboard-item {
-    min-height: 200px;
-    padding: 18px;
-  }
-  
-  .world-map {
-    min-height: 300px;
-    /* Full width on small devices */
-    grid-column: 1 / -1;
-  }
-  
-  /* Show some dashboard items on small devices but keep map prominent */
-  .network-anomaly,
-  .threat-intel,
-  .compliance {
-    display: none;
-  }
-}
-
-/* Medium Devices (768px-1023px) - Tablet */
-@media (min-width: 768px) and (max-width: 1023px) {
-  :root {
-    --grid-gap: var(--grid-gap-md);
-    --section-padding: var(--section-padding-md);
-    --container-padding: var(--container-padding-md);
-  }
-  
-  /* Two Column Layout for Tablets */
-  .dashboard-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--grid-gap-md);
-    padding: 0 var(--container-padding-md);
-    grid-auto-rows: minmax(240px, auto);
-  }
-  
-  .dashboard-item {
-    padding: 20px;
-    min-height: 240px;
-  }
-  
-  /* World map spans both columns on tablet */
-  .world-map {
-    grid-column: span 2;
-    min-height: 350px;
-  }
-  
-  /* Show all dashboard items on tablets */
-  .network-anomaly,
-  .threat-intel,
-  .compliance,
-  .ai-learning,
-  .ai-agents,
-  .attack-vectors,
-  .weather-intelligence,
-  .log-analysis,
-  .enhanced-stats,
-  .threat-detection,
-  .agent-performance {
-    display: flex;
-  }
-}
-
-/* Large Devices (1024px-1199px) - Desktop */
-@media (min-width: 1024px) and (max-width: 1199px) {
-  :root {
-    --grid-gap: var(--grid-gap-lg);
-    --section-padding: var(--section-padding-lg);
-    --container-padding: var(--container-padding-lg);
-  }
-  
-  /* Three Column Layout for Desktop */
-  .dashboard-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--grid-gap-lg);
-    padding: 0 var(--container-padding-lg);
-    grid-auto-rows: minmax(280px, auto);
-  }
-  
-  .world-map {
-    grid-column: span 2;
-    min-height: 400px;
-  }
-  
-  .dashboard-item {
-    padding: 24px;
-    min-height: 280px;
-  }
-  
-  /* Show all dashboard items on desktop */
-  .network-anomaly,
-  .threat-intel,
-  .compliance,
-  .ai-learning,
-  .ai-agents,
-  .attack-vectors,
-  .weather-intelligence,
-  .log-analysis,
-  .enhanced-stats,
-  .threat-detection,
-  .agent-performance {
-    display: flex;
-  }
-}
-
-/* Extra Large Devices (1200px-1439px) */
-@media (min-width: 1200px) and (max-width: 1439px) {
-  :root {
-    --grid-gap: var(--grid-gap-xl);
-    --section-padding: var(--section-padding-xl);
-    --container-padding: var(--container-padding-xl);
-  }
-  
-  .dashboard-grid {
-    gap: var(--grid-gap-xl);
-    padding: 0 var(--container-padding-xl);
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .dashboard-item {
-    padding: 26px;
-    min-height: 300px;
-  }
-  
-  .world-map {
-    grid-column: span 2;
-    min-height: 450px;
-  }
-  
-  /* Show all dashboard items on large screens */
-  .network-anomaly,
-  .threat-intel,
-  .compliance,
-  .ai-learning,
-  .ai-agents,
-  .attack-vectors,
-  .weather-intelligence,
-  .log-analysis,
-  .enhanced-stats,
-  .threat-detection,
-  .agent-performance {
-    display: flex;
-  }
-}
-
-/* XXL Devices (1440px+) - Optimize for very wide screens */
-@media (min-width: 1440px) {
-  :root {
-    --grid-gap: var(--grid-gap-xxl);
-    --section-padding: var(--section-padding-xxl);
-    --container-padding: var(--container-padding-xxl);
-  }
-  
-  .dashboard-grid {
-    max-width: 1400px;
-    margin-left: auto;
-    margin-right: auto;
-    gap: var(--grid-gap-xxl);
-    padding: 0 var(--container-padding-xxl);
-  }
-  
-  .dashboard-item {
-    padding: 28px;
-    min-height: 320px;
-  }
-  
-  .world-map {
-    grid-column: span 2;
-    min-height: 500px;
-  }
-  
-  /* Show all dashboard items on XXL screens */
-  .network-anomaly,
-  .threat-intel,
-  .compliance,
-  .ai-learning,
-  .ai-agents,
-  .attack-vectors,
-  .weather-intelligence,
-  .log-analysis,
-  .enhanced-stats,
-  .threat-detection,
-  .agent-performance {
-    display: flex;
-  }
-}
-
-/* Touch Target Enhancements for Mobile */
-@media (max-width: 767px) {
-  /* Ensure all interactive elements meet 44x44px minimum */
-  button,
-  .control-buttons button,
-  .hamburger-menu,
-  .nav-menu a,
-  .dashboard-item,
-  .feature-card {
-    min-width: 44px;
-    min-height: 44px;
-  }
-  
-  /* Enhanced touch targets for dashboard controls */
-  .control-buttons button {
-    min-width: 44px;
-    min-height: 44px;
-    padding: 12px;
-  }
-  
-  /* Mobile-optimized navigation */
-  .nav-menu ul li a {
-    padding: 14px 18px;
-    font-size: 16px; /* Prevents auto-zoom on iOS */
-  }
-  
-  /* Touch-friendly dashboard items */
-  .dashboard-item {
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-  }
-}
-
-/* Container Queries Support (Modern Browsers) */
-@supports (container-type: inline-size) {
-  .dashboard-grid {
-    container-type: inline-size;
-  }
-  
-  @container (min-width: 320px) {
-    .dashboard-grid {
-      grid-template-columns: 1fr;
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
     }
-  }
-  
-  @container (min-width: 768px) {
-    .dashboard-grid {
-      grid-template-columns: repeat(2, 1fr);
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
-  }
-  
-  @container (min-width: 1024px) {
-    .dashboard-grid {
-      grid-template-columns: repeat(3, 1fr);
+}
+
+/* Footer responsive */
+.footer-content {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+}
+
+.footer-section {
+    text-align: center;
+}
+
+/* Mobile: smaller footer height */
+@media (max-width: 639px) {
+    .app-content {
+        padding-bottom: calc(var(--bottom-nav-height) + 320px) !important;
     }
-  }
 }
 
-/* Aspect Ratio Preservation */
-.dashboard-item {
-  aspect-ratio: 16/9;
-}
-
-.world-map {
-  aspect-ratio: 2/1;
-}
-
-/* Flexbox Fallback for Older Browsers */
-@supports not (display: grid) {
-  .dashboard-grid {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  @media (min-width: 768px) {
-    .dashboard-grid {
-      flex-direction: row;
-      flex-wrap: wrap;
+@media (min-width: 640px) {
+    .footer-content {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-lg);
     }
     
-    .dashboard-item {
-      flex: 1 1 calc(50% - var(--grid-gap-md));
+    .footer-section {
+        text-align: left;
     }
-  }
-  
-  @media (min-width: 1024px) {
-    .dashboard-item {
-      flex: 1 1 calc(33.333% - var(--grid-gap-lg));
+    
+    /* Tablet: medium footer height */
+    .app-content {
+        padding-bottom: calc(var(--bottom-nav-height) + 280px) !important;
     }
-  }
+}
+
+@media (min-width: 1024px) {
+    /* Desktop: more compact footer */
+    .app-content {
+        padding-bottom: calc(var(--bottom-nav-height) + 260px) !important;
+    }
+}
+
+/* Small devices (360px - 640px) - Primary target */
+@media (min-width: 360px) {
+    body {
+        font-size: 14px;
+    }
+    
+    .app-title {
+        font-size: 1.125rem;
+    }
+    
+    .stat-value {
+        font-size: 1.5rem;
+    }
+}
+
+/* Medium-small devices (480px+) */
+@media (min-width: 480px) {
+    .stats-grid {
+        gap: var(--spacing-md);
+    }
+    
+    .stat-card {
+        padding: var(--spacing-lg);
+    }
+    
+    .vehicle-card,
+    .threat-card,
+    .maintenance-card {
+        padding: var(--spacing-lg);
+    }
+}
+
+/* Tablets and larger phones (640px+) */
+@media (min-width: 640px) {
+    .app-content {
+        padding: var(--spacing-lg);
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .filters {
+        gap: var(--spacing-md);
+    }
+    
+    .filter-select {
+        min-width: 150px;
+    }
+}
+
+/* Tablets (768px+) */
+@media (min-width: 768px) {
+    :root {
+        --header-height: 64px;
+        --bottom-nav-height: 72px;
+    }
+    
+    .app-title {
+        font-size: 1.5rem;
+    }
+    
+    .stat-value {
+        font-size: 2rem;
+    }
+    
+    .stat-label {
+        font-size: 0.875rem;
+    }
+    
+    .vehicle-list,
+    .threat-list,
+    .maintenance-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-md);
+    }
+    
+    .section-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .bottom-nav {
+        padding: 0 var(--spacing-lg);
+    }
+    
+    .nav-item i {
+        font-size: 1.75rem;
+    }
+    
+    .nav-item span {
+        font-size: 0.875rem;
+    }
+    
+    .pipeline {
+        gap: var(--spacing-sm);
+    }
+    
+    .pipeline-step {
+        padding: var(--spacing-md);
+        font-size: 0.875rem;
+    }
+    
+    .pipeline-step i {
+        font-size: 1.5rem;
+    }
+}
+
+/* Desktops (1024px+) */
+@media (min-width: 1024px) {
+    .app-content {
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: var(--spacing-xl);
+    }
+    
+    .header-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 var(--spacing-xl);
+    }
+    
+    .stats-grid {
+        gap: var(--spacing-lg);
+    }
+    
+    .vehicle-list,
+    .threat-list,
+    .maintenance-list {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--spacing-lg);
+    }
+    
+    .bottom-sheet {
+        max-width: 600px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100%);
+        border-radius: var(--radius-xl);
+    }
+    
+    .bottom-sheet.open {
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+/* Large desktops (1280px+) */
+@media (min-width: 1280px) {
+    .vehicle-list,
+    .threat-list,
+    .maintenance-list {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Landscape orientation handling */
+@media (orientation: landscape) and (max-height: 500px) {
+    :root {
+        --header-height: 48px;
+        --bottom-nav-height: 56px;
+    }
+    
+    .app-title {
+        font-size: 1rem;
+    }
+    
+    .app-content {
+        padding: var(--spacing-sm);
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: var(--spacing-sm);
+    }
+    
+    .stat-card {
+        padding: var(--spacing-sm);
+    }
+    
+    .stat-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 1.125rem;
+    }
+    
+    .stat-value {
+        font-size: 1.25rem;
+    }
+    
+    .stat-label {
+        font-size: 0.625rem;
+    }
+    
+    .nav-item i {
+        font-size: 1.25rem;
+    }
+    
+    .nav-item span {
+        font-size: 0.625rem;
+    }
+    
+    .bottom-sheet {
+        max-height: 70vh;
+    }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    body {
+        -webkit-font-smoothing: subpixel-antialiased;
+    }
+    
+    .stat-icon,
+    .nav-item i {
+        transform: translateZ(0);
+    }
+}
+
+/* Safe area handling for notched devices */
+@supports (padding: max(0px)) {
+    .app-header {
+        padding-left: max(var(--spacing-md), env(safe-area-inset-left));
+        padding-right: max(var(--spacing-md), env(safe-area-inset-right));
+        padding-top: env(safe-area-inset-top);
+    }
+    
+    .bottom-nav {
+        padding-left: max(0px, env(safe-area-inset-left));
+        padding-right: max(0px, env(safe-area-inset-right));
+        padding-bottom: env(safe-area-inset-bottom);
+        height: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom));
+    }
+    
+    .app-content {
+        margin-top: calc(var(--header-height) + env(safe-area-inset-top));
+        margin-bottom: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom));
+    }
+}
+
+/* Print styles */
+@media print {
+    .app-header,
+    .bottom-nav,
+    .demo-notice,
+    .toast-container,
+    .bottom-sheet {
+        display: none !important;
+    }
+    
+    .app-content {
+        margin: 0;
+        padding: 0;
+    }
+    
+    .tab-content {
+        display: block !important;
+        page-break-after: always;
+    }
 }

@@ -2,1355 +2,304 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover, maximum-scale=5.0, minimum-scale=1.0">
-    <title>Singularity - Otomotiv IoT Siber Güvenlik Platformu</title>
-    <meta name="description" content="Singularity, uçtan uca otomotiv IoT ekosisteminin tamamını kapsayan ilk siber güvenlik çözümü ve yeni nesil bir platformdur.">
-    <meta name="keywords" content="otomotiv, IoT, siber güvenlik, ECU, telematik, V2X, şarj istasyonları, yapay zeka, anomali tespiti">
-    
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Singularity - Otomotiv IoT Siber Güvenlik Platformu">
-    <meta property="og:description" content="Singularity, uçtan uca otomotiv IoT ekosisteminin tamamını kapsayan ilk siber güvenlik çözümü ve yeni nesil bir platformdur.">
-    <meta property="og:image" content="./images/singularity-og-image.jpg">
-    <meta property="og:url" content="https://demo.singularityrd.com">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Singularity">
-    
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Singularity - Otomotiv IoT Siber Güvenlik Platformu">
-    <meta name="twitter:description" content="Singularity, uçtan uca otomotiv IoT ekosisteminin tamamını kapsayan ilk siber güvenlik çözümü ve yeni nesil bir platformdur.">
-    <meta name="twitter:image" content="./images/singularity-twitter-image.jpg">
-    <meta name="twitter:site" content="@singularityrd">
-    <meta name="theme-color" content="#2c3e72">
-    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="Singularity - Otomotiv IoT Siber Güvenlik Platformu">
+    <meta name="theme-color" content="#1a1a2e">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="format-detection" content="telephone=no">
-    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-title" content="Singularity">
+    <title>Singularity - Otomotiv IoT Güvenlik</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="responsive-enhancements.css">
     <link rel="stylesheet" href="touch-target-enhancements.css">
     <link rel="stylesheet" href="mobile-optimization.css">
     <link rel="stylesheet" href="map-styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
-    <!-- Apple touch icons -->
-    <link rel="apple-touch-icon" href="images/icon-192.png">
+    
+    <link rel="manifest" href="manifest.json">
 </head>
 <body>
-    <!-- Skip to Content Link for Accessibility -->
-    <a href="#demo" class="skip-to-content">Demo'ya atla</a>
-    
-    <!-- Mobile Menu Button -->
-    <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Menüyü aç/kapat">
-        <i class="fas fa-bars"></i>
-    </button>
-    
-    <div class="container">
+    <div id="offline-banner" class="offline-banner hidden">
+        <i class="fas fa-wifi-slash"></i>
+        <span>Çevrimdışı Mod - Önbellekten Çalışıyor</span>
+    </div>
 
-        <!-- Hero Section -->
-        <section id="home" class="hero">
-            <div class="hero-content">
-                <h2>Otomotiv IoT Ekosistemi İçin<br><span class="highlight">Kapsamlı Siber Güvenlik</span></h2>
-                <p>Singularity, uçtan uca otomotiv IoT ekosisteminin tamamını kapsayan ilk siber güvenlik çözümüdür. Araç içi ECU'lardan telematik ve V2X birimlerine, elektrikli şarj istasyonlarından üretim hattı IoT cihazlarına kadar tüm bileşenleri tek çatı altında korur.</p>
-                <div class="hero-stats">
-                    <div class="stat-item">
-                        <span class="stat-value">0.1s</span>
-                        <span class="stat-label">Tehdit Tespiti</span>
+    <header class="app-header">
+        <div class="header-content">
+            <h1 class="app-title">
+                <i class="fas fa-shield-alt"></i>
+                Singularity
+            </h1>
+            <div class="status-badge online">
+                <span class="status-dot"></span>
+                <span>Çevrimiçi</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="app-content">
+        <div id="device-management" class="tab-content active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: var(--success-bg)">
+                        <i class="fas fa-car" style="color: var(--success)"></i>
                     </div>
-                    <div class="stat-item">
-                        <span class="stat-value">250+</span>
-                        <span class="stat-label">Özellik</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-value">75%</span>
-                        <span class="stat-label">Daha Düşük Maliyet</span>
+                    <div class="stat-info">
+                        <div class="stat-value" id="active-vehicles">0</div>
+                        <div class="stat-label">Aktif Araç</div>
                     </div>
                 </div>
-                <div class="hero-buttons">
-                    <a href="#demo" class="btn-primary">Demo İzle</a>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: var(--danger-bg)">
+                        <i class="fas fa-exclamation-triangle" style="color: var(--danger)"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="offline-vehicles">0</div>
+                        <div class="stat-label">Çevrimdışı</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: var(--warning-bg)">
+                        <i class="fas fa-bell" style="color: var(--warning)"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="alerts-count">0</div>
+                        <div class="stat-label">Uyarılar</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: var(--info-bg)">
+                        <i class="fas fa-download" style="color: var(--info)"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="ota-jobs">0</div>
+                        <div class="stat-label">OTA İşleri</div>
+                    </div>
                 </div>
             </div>
-            <div class="hero-visual">
-                <div class="floating-elements">
-                    <div class="element car"><i class="fas fa-car-side"></i></div>
-                    <div class="element shield"><i class="fas fa-shield-alt"></i></div>
-                    <div class="element cloud"><i class="fas fa-cloud"></i></div>
-                    <div class="element lock"><i class="fas fa-lock"></i></div>
-                    <div class="element chip"><i class="fas fa-microchip"></i></div>
-                </div>
-            </div>
-        </section>
 
-        <!-- Overview Section -->
-        <section id="overview" class="overview">
             <div class="section-header">
-                <h2>GİRİŞİM ÖZETİ</h2>
-                <p>Singularity ile otomotiv siber güvenliğinde devrim yaratın</p>
+                <h2>Araç Listesi</h2>
+                <button class="icon-btn" id="refresh-vehicles" aria-label="Yenile">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
             </div>
-            
-            <div class="overview-content">
-                <div class="overview-text">
-                    <h3>Singularity Nedir?</h3>
-                    <p>Singularity, uçtan uca otomotiv IoT ekosisteminin tamamını kapsayan ilk siber güvenlik çözümü ve yeni nesil bir platformdur. Araç içi ECU'lardan telematik ve V2X birimlerine, elektrikli şarj istasyonlarından üretim hattı IoT cihazlarına ve tedarik zincirindeki dijital varlıklara kadar tüm bileşenleri tek çatı altında korur.</p>
-                    
-                    <p>Yapay zekâ tabanlı anomali tespiti ve davranış analizi sayesinde siber saldırıları yalnızca 0,1 saniyede tespit eder, etkisiz hale getirir ve otomatik müdahale süreçlerini başlatır.</p>
-                    
-                    <div class="key-achievements">
-                        <div class="achievement">
-                            <i class="fas fa-trophy"></i>
-                            <div>
-                                <h4>En Başarılı Algoritma</h4>
-                                <p>Platform, literatürdeki en başarılı araç güvenlik algoritması geliştirilerek oluşturulmuştur.</p>
-                            </div>
-                        </div>
-                        <div class="achievement">
-                            <i class="fas fa-chart-line"></i>
-                            <div>
-                                <h4>Operasyonel Verimlilik</h4>
-                                <p>Saha pilotlarında operasyonel verimlilik 3 kat artmış, IT ve siber güvenlik ekiplerinin iş yükü %70 azalmıştır.</p>
-                            </div>
-                        </div>
-                        <div class="achievement">
-                            <i class="fas fa-dollar-sign"></i>
-                            <div>
-                                <h4>Maliyet Avantajı</h4>
-                                <p>Piyasadaki benzer çözümlerden %75 daha düşük maliyetle sunulmaktadır.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="overview-visual">
-                    <div class="platform-preview">
-                        <div class="preview-header">
-                            <h4>Platform Önizleme</h4>
-                            <div class="preview-controls">
-                                <span class="control-dot active"></span>
-                                <span class="control-dot"></span>
-                                <span class="control-dot"></span>
-                            </div>
-                        </div>
-                        <div class="preview-content">
-                            <div class="preview-map">
-                                <div class="map-marker active"></div>
-                                <div class="map-marker warning"></div>
-                                <div class="map-marker normal"></div>
-                                <div class="map-marker normal"></div>
-                                <div class="map-marker active"></div>
-                            </div>
-                            <div class="preview-stats">
-                                <div class="preview-stat">
-                                    <span class="stat-label">Aktif Araç</span>
-                                    <span class="stat-value">2,847</span>
-                                </div>
-                                <div class="preview-stat">
-                                    <span class="stat-label">Tehdit Engellendi</span>
-                                    <span class="stat-value">142</span>
-                                </div>
-                                <div class="preview-stat">
-                                    <span class="stat-label">Sistem Durumu</span>
-                                    <span class="stat-value status-good">Normal</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- Target Audience Section -->
-        <section class="target-audience">
-            <div class="section-header">
-                <h2>HEDEF KİTLE</h2>
-                <p>Geniş kapsamlı otomotiv ekosistemi için tasarlandı</p>
+            <div class="filters">
+                <select id="device-type-filter" class="filter-select">
+                    <option value="">Tüm Cihaz Tipleri</option>
+                </select>
+                <select id="city-filter" class="filter-select">
+                    <option value="">Tüm Şehirler</option>
+                </select>
+                <select id="status-filter" class="filter-select">
+                    <option value="">Tüm Durumlar</option>
+                    <option value="online">Çevrimiçi</option>
+                    <option value="offline">Çevrimdışı</option>
+                </select>
+                <select id="risk-filter" class="filter-select">
+                    <option value="">Tüm Risk Seviyeleri</option>
+                    <option value="low">Düşük</option>
+                    <option value="medium">Orta</option>
+                    <option value="high">Yüksek</option>
+                    <option value="critical">Kritik</option>
+                </select>
             </div>
-            
-            <div class="audience-grid">
-                <div class="audience-card">
-                    <div class="audience-icon">
-                        <i class="fas fa-industry"></i>
-                    </div>
-                    <h3>OEM'ler</h3>
-                    <p>Araç üreticileri için entegre güvenlik çözümleri</p>
-                </div>
-                
-                <div class="audience-card">
-                    <div class="audience-icon">
-                        <i class="fas fa-cogs"></i>
-                    </div>
-                    <h3>Tier-1 Tedarikçiler</h3>
-                    <p>Otomotiv tedarik zinciri için kapsamlı koruma</p>
-                </div>
-                
-                <div class="audience-card">
-                    <div class="audience-icon">
-                        <i class="fas fa-truck"></i>
-                    </div>
-                    <h3>Filo Operatörleri</h3>
-                    <p>Büyük araç filoları için merkezi yönetim</p>
-                </div>
-                
-                <div class="audience-card">
-                    <div class="audience-icon">
-                        <i class="fas fa-charging-station"></i>
-                    </div>
-                    <h3>Şarj İstasyonları</h3>
-                    <p>Elektrikli şarj altyapısı için güvenlik</p>
-                </div>
-                
-                <div class="audience-card">
-                    <div class="audience-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>Savunma Sanayii</h3>
-                    <p>Askeri ve kritik araçlar için özel koruma</p>
-                </div>
-                
-                <div class="audience-card">
-                    <div class="audience-icon">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <h3>Akıllı Fabrikalar</h3>
-                    <p>Üretim hattı IoT cihazları için güvenlik</p>
-                </div>
-            </div>
-        </section>
 
-        <!-- Features Section -->
-        <section id="features" class="features">
+            <div id="vehicle-list" class="vehicle-list"></div>
+        </div>
+
+        <div id="cybersecurity" class="tab-content">
             <div class="section-header">
-                <h2>PLATFORM ÖZELLİKLERİ</h2>
-                <p>Kapsamlı güvenlik ve yönetim yetenekleri</p>
+                <h2>Canlı Tehdit Akışı</h2>
+                <button class="btn btn-primary" id="simulate-threat">
+                    <i class="fas fa-bolt"></i>
+                    Tehdit Simüle Et
+                </button>
             </div>
-            
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-bolt"></i>
+
+            <div class="pipeline-container">
+                <div class="pipeline-title">Veri İşleme Hattı</div>
+                <div class="pipeline">
+                    <div class="pipeline-step" data-step="collection">
+                        <i class="fas fa-database"></i>
+                        <span>Toplama</span>
                     </div>
-                    <h3>Hızlı Tehdit Tespiti</h3>
-                    <p>Yalnızca 0,1 saniyede siber saldırıları tespit eder ve etkisiz hale getirir</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
+                    <div class="pipeline-arrow">→</div>
+                    <div class="pipeline-step" data-step="anonymization">
+                        <i class="fas fa-user-secret"></i>
+                        <span>Anonimleştirme</span>
+                    </div>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="pipeline-step" data-step="analysis">
                         <i class="fas fa-brain"></i>
+                        <span>ML Analiz</span>
                     </div>
-                    <h3>Yapay Zeka Analizi</h3>
-                    <p>YZ tabanlı anomali tespiti ve davranış analizi ile proaktif koruma</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-network-wired"></i>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="pipeline-step" data-step="anomaly">
+                        <i class="fas fa-search"></i>
+                        <span>Anomali</span>
                     </div>
-                    <h3>Uçtan Uca Koruma</h3>
-                    <p>ECU'dan telematiğe, V2X'ten şarj istasyonlarına kadar tüm bileşenler</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-cogs"></i>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="pipeline-step" data-step="decision">
+                        <i class="fas fa-robot"></i>
+                        <span>Karar Motoru</span>
                     </div>
-                    <h3>Otomatik Müdahale</h3>
-                    <p>Tespit edilen tehditlere karşı otomatik müdahale süreçleri başlatır</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-cloud-upload-alt"></i>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="pipeline-step" data-step="event">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span>Olay</span>
                     </div>
-                    <h3>Uzaktan Yazılım Dağıtımı</h3>
-                    <p>Merkezi yönetim ile filo genelinde anında yazılım güncellemeleri</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-clipboard-list"></i>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="pipeline-step" data-step="response">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Yanıt</span>
                     </div>
-                    <h3>Gerçek Zamanlı Envanter</h3>
-                    <p>Tüm bağlı cihazların anlık durum takibi ve envanter yönetimi</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-tools"></i>
-                    </div>
-                    <h3>Kestirimci Bakım</h3>
-                    <p>YZ destekli kestirimci bakım ile arıza öngörüsü ve önlem</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3>Performans Analizi</h3>
-                    <p>Detaylı performans metrikleri ve operasyonel verimlilik takibi</p>
                 </div>
             </div>
-        </section>
 
-        <!-- Architecture Section -->
-        <section id="architecture" class="architecture">
+            <div id="threat-list" class="threat-list"></div>
+        </div>
+
+        <div id="predictive-maintenance" class="tab-content">
             <div class="section-header">
-                <h2>TEKNOLOJİ MİMARİSİ</h2>
-                <p>Gelişmiş ve ölçeklenebilir altyapı</p>
-            </div>
-            
-            <div class="architecture-content">
-                <div class="arch-diagram">
-                    <div class="arch-layer data-sources">
-                        <h3>Veri Kaynakları</h3>
-                        <div class="arch-items">
-                            <div class="arch-item">
-                                <i class="fas fa-car-side"></i>
-                                <span>Araç İçi ECU'lar</span>
-                            </div>
-                            <div class="arch-item">
-                                <i class="fas fa-satellite-dish"></i>
-                                <span>Telematik Birimleri</span>
-                            </div>
-                            <div class="arch-item">
-                                <i class="fas fa-exchange-alt"></i>
-                                <span>V2X Sistemleri</span>
-                            </div>
-                            <div class="arch-item">
-                                <i class="fas fa-charging-station"></i>
-                                <span>Şarj İstasyonları</span>
-                            </div>
-                            <div class="arch-item">
-                                <i class="fas fa-microchip"></i>
-                                <span>Üretim IoT Cihazları</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="arch-layer processing">
-                        <h3>İşleme Katmanı</h3>
-                        <div class="arch-items">
-                            <div class="arch-item">
-                                <i class="fas fa-user-secret"></i>
-                                <span>Anonimleştirme</span>
-                            </div>
-                            <div class="arch-item">
-                                <i class="fas fa-database"></i>
-                                <span>Normalizasyon</span>
-                            </div>
-                            <div class="arch-item">
-                                <i class="fas fa-cubes"></i>
-                                <span>Büyük Veri</span>
-                            </div>
-                            <div class="arch-item">
-                                <i class="fas fa-brain"></i>
-                                <span>YZ Profilleme</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="arch-layer security">
-                        <h3>Güvenlik Motorları</h3>
-                        <div class="arch-items">
-                            <div class="arch-item">
-                                <i class="fas fa-search"></i>
-                                <span>Anomali Tespiti</span>
-                            </div>
-                            <div class="arch-item">
-                                <i class="fas fa-chart-line"></i>
-                                <span>Davranış Analizi</span>
-                            </div>
-                            <div class="arch-item">
-                                <i class="fas fa-shield-alt"></i>
-                                <span>Tehdit İstihbaratı</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="arch-layer output">
-                        <h3>Çıktı ve Entegrasyon</h3>
-                        <div class="arch-items">
-                            <div class="arch-item">
-                                <i class="fas fa-desktop"></i>
-                                <span>Güvenlik Operasyon Merkezi</span>
-                            </div>
-                            <div class="arch-item">
-                                <i class="fas fa-bell"></i>
-                                <span>Gerçek Zamanlı Uyarılar</span>
-                            </div>
-                            <div class="arch-item">
-                                <i class="fas fa-cogs"></i>
-                                <span>Otomatik Müdahale</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- Demo Section -->
-        <section id="demo" class="demo">
-            <div class="section-header">
-                <h2>PLATFORM DEMOLARI</h2>
-                <p>Singularity platformunun farklı dashboard'larını canlı deneyin</p>
-            </div>
-            
-            <!-- Dashboard Navigation Tabs -->
-            <div class="dashboard-tabs" role="tablist" aria-label="Dashboard sekmeleri">
-                <button class="tab-btn active" data-tab="device-management" role="tab" aria-selected="true" aria-controls="device-management" tabindex="0">
-                    <i class="fas fa-microchip" aria-hidden="true"></i>
-                    <span>Cihaz Yönetimi</span>
-                </button>
-                <button class="tab-btn" data-tab="cybersecurity" role="tab" aria-selected="false" aria-controls="cybersecurity" tabindex="-1">
-                    <i class="fas fa-shield-alt" aria-hidden="true"></i>
-                    <span>Siber Güvenlik</span>
-                </button>
-                <button class="tab-btn" data-tab="predictive-maintenance" role="tab" aria-selected="false" aria-controls="predictive-maintenance" tabindex="-1">
-                    <i class="fas fa-tools" aria-hidden="true"></i>
-                    <span>Kestirimci Bakım</span>
+                <h2>Kestirimci Bakım</h2>
+                <button class="icon-btn" id="refresh-maintenance" aria-label="Yenile">
+                    <i class="fas fa-sync-alt"></i>
                 </button>
             </div>
-            
-            <!-- Device Management Dashboard -->
-            <div class="dashboard-content active" id="device-management" role="tabpanel" aria-labelledby="device-management-tab">
-                <div class="demo-container">
-                    <div class="demo-screen">
-                        <div class="demo-header">
-                            <div class="demo-title">
-                                <i class="fas fa-microchip"></i>
-                                <span>Cihaz Yönetim Merkezi</span>
-                            </div>
-                            <div class="demo-controls">
-                                <button class="demo-btn" id="refresh-devices"><i class="fas fa-sync-alt"></i></button>
-                                <button class="demo-btn" id="add-device"><i class="fas fa-plus"></i></button>
-                                <button class="demo-btn"><i class="fas fa-expand"></i></button>
-                                <button class="demo-btn"><i class="fas fa-cog"></i></button>
-                            </div>
-                        </div>
-                        
-                        <div class="demo-content">
-                            <div class="device-overview">
-                                <div class="device-stats-grid">
-                                    <div class="device-stat-card">
-                                        <div class="stat-header">
-                                            <span class="stat-title">Toplam Cihaz</span>
-                                            <i class="fas fa-microchip"></i>
-                                        </div>
-                                        <div class="stat-value">3,428</div>
-                                        <div class="stat-change positive">
-                                            <i class="fas fa-arrow-up"></i>
-                                            <span>156</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="device-stat-card">
-                                        <div class="stat-header">
-                                            <span class="stat-title">Aktif Cihaz</span>
-                                            <i class="fas fa-power-off"></i>
-                                        </div>
-                                        <div class="stat-value">3,287</div>
-                                        <div class="stat-change positive">
-                                            <i class="fas fa-arrow-up"></i>
-                                            <span>98.9%</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="device-stat-card">
-                                        <div class="stat-header">
-                                            <span class="stat-title">Bakım Gereken</span>
-                                            <i class="fas fa-wrench"></i>
-                                        </div>
-                                        <div class="stat-value">47</div>
-                                        <div class="stat-change negative">
-                                            <i class="fas fa-arrow-up"></i>
-                                            <span>12</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="device-stat-card">
-                                        <div class="stat-header">
-                                            <span class="stat-title">Çevrimdışı</span>
-                                            <i class="fas fa-exclamation-triangle"></i>
-                                        </div>
-                                        <div class="stat-value">94</div>
-                                        <div class="stat-change negative">
-                                            <i class="fas fa-arrow-up"></i>
-                                            <span>8</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="device-map-container">
-                                <div class="map-header">
-                                    <h4>Cihaz Coğrafi Dağılımı</h4>
-                                    <div class="map-controls">
-                                        <button class="map-btn active" id="device-map-view">Harita</button>
-                                        <button class="map-btn" id="device-list-view">Liste</button>
-                                        <button class="map-btn" id="device-map-refresh"><i class="fas fa-sync-alt"></i></button>
-                                    </div>
-                                </div>
-                                <div class="device-map" id="device-map">
-                                    <!-- Leaflet map will be initialized here -->
-                                </div>
-                                <div class="device-list" id="device-list" style="display: none;">
-                                    <!-- Device list view will be rendered here -->
-                                </div>
-                            </div>
-                            
-                            <div class="device-categories">
-                                <div class="category-header">
-                                    <h4>Cihaz Kategorileri</h4>
-                                    <div class="category-controls">
-                                        <button class="category-btn active">Tümü</button>
-                                        <button class="category-btn">ECU</button>
-                                        <button class="category-btn">Telematik</button>
-                                        <button class="category-btn">Şarj</button>
-                                        <button class="category-btn">Üretim</button>
-                                    </div>
-                                </div>
-                                <div class="category-grid">
-                                    <div class="category-card">
-                                        <div class="category-icon">
-                                            <i class="fas fa-car-side"></i>
-                                        </div>
-                                        <div class="category-info">
-                                            <h5>Araç ECU'ları</h5>
-                                            <div class="category-stats">
-                                                <span class="count">1,847</span>
-                                                <span class="status online">1,792 Aktif</span>
-                                            </div>
-                                        </div>
-                                        <div class="category-progress">
-                                            <div class="progress-bar">
-                                                <div class="progress" style="width: 97%"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="category-card">
-                                        <div class="category-icon">
-                                            <i class="fas fa-satellite-dish"></i>
-                                        </div>
-                                        <div class="category-info">
-                                            <h5>Telematik Birimleri</h5>
-                                            <div class="category-stats">
-                                                <span class="count">892</span>
-                                                <span class="status online">876 Aktif</span>
-                                            </div>
-                                        </div>
-                                        <div class="category-progress">
-                                            <div class="progress-bar">
-                                                <div class="progress" style="width: 98.2%"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="category-card">
-                                        <div class="category-icon">
-                                            <i class="fas fa-charging-station"></i>
-                                        </div>
-                                        <div class="category-info">
-                                            <h5>Şarj İstasyonları</h5>
-                                            <div class="category-stats">
-                                                <span class="count">423</span>
-                                                <span class="status online">401 Aktif</span>
-                                            </div>
-                                        </div>
-                                        <div class="category-progress">
-                                            <div class="progress-bar">
-                                                <div class="progress" style="width: 94.8%"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="category-card">
-                                        <div class="category-icon">
-                                            <i class="fas fa-warehouse"></i>
-                                        </div>
-                                        <div class="category-info">
-                                            <h5>Üretim IoT Cihazları</h5>
-                                            <div class="category-stats">
-                                                <span class="count">266</span>
-                                                <span class="status online">218 Aktif</span>
-                                            </div>
-                                        </div>
-                                        <div class="category-progress">
-                                            <div class="progress-bar">
-                                                <div class="progress" style="width: 82%"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="device-performance">
-                                <div class="performance-header">
-                                    <h4>Cihaz Performans Metrikleri</h4>
-                                    <div class="performance-period">
-                                        <button class="period-btn active">24 Saat</button>
-                                        <button class="period-btn">7 Gün</button>
-                                        <button class="period-btn">30 Gün</button>
-                                    </div>
-                                </div>
-                                <div class="performance-charts">
-                                    <div class="performance-chart">
-                                        <div class="chart-title">CPU Kullanımı (%)</div>
-                                        <div class="chart-container">
-                                            <div class="chart-bars">
-                                                <div class="chart-bar">
-                                                    <div class="bar performance" style="height: 65%"></div>
-                                                    <span class="bar-label">00:00</span>
-                                                </div>
-                                                <div class="chart-bar">
-                                                    <div class="bar performance" style="height: 72%"></div>
-                                                    <span class="bar-label">04:00</span>
-                                                </div>
-                                                <div class="chart-bar">
-                                                    <div class="bar performance" style="height: 85%"></div>
-                                                    <span class="bar-label">08:00</span>
-                                                </div>
-                                                <div class="chart-bar">
-                                                    <div class="bar performance" style="height: 92%"></div>
-                                                    <span class="bar-label">12:00</span>
-                                                </div>
-                                                <div class="chart-bar">
-                                                    <div class="bar performance" style="height: 78%"></div>
-                                                    <span class="bar-label">16:00</span>
-                                                </div>
-                                                <div class="chart-bar">
-                                                    <div class="bar performance" style="height: 68%"></div>
-                                                    <span class="bar-label">20:00</span>
-                                                </div>
-                                                <div class="chart-bar">
-                                                    <div class="bar performance" style="height: 62%"></div>
-                                                    <span class="bar-label">24:00</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="performance-chart">
-                                        <div class="chart-title">Bellek Kullanımı (%)</div>
-                                        <div class="chart-container">
-                                            <div class="chart-bars">
-                                                <div class="chart-bar">
-                                                    <div class="bar memory" style="height: 45%"></div>
-                                                    <span class="bar-label">00:00</span>
-                                                </div>
-                                                <div class="chart-bar">
-                                                    <div class="bar memory" style="height: 52%"></div>
-                                                    <span class="bar-label">04:00</span>
-                                                </div>
-                                                <div class="chart-bar">
-                                                    <div class="bar memory" style="height: 68%"></div>
-                                                    <span class="bar-label">08:00</span>
-                                                </div>
-                                                <div class="chart-bar">
-                                                    <div class="bar memory" style="height: 75%"></div>
-                                                    <span class="bar-label">12:00</span>
-                                                </div>
-                                                <div class="chart-bar">
-                                                    <div class="bar memory" style="height: 62%"></div>
-                                                    <span class="bar-label">16:00</span>
-                                                </div>
-                                                <div class="chart-bar">
-                                                    <div class="bar memory" style="height: 48%"></div>
-                                                    <span class="bar-label">20:00</span>
-                                                </div>
-                                                <div class="chart-bar">
-                                                    <div class="bar memory" style="height: 42%"></div>
-                                                    <span class="bar-label">24:00</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="device-alerts">
-                                <div class="alert-header">
-                                    <h4>Son Cihaz Olayları</h4>
-                                    <span class="alert-time">Son 10 dakika</span>
-                                </div>
-                                <div class="alert-list">
-                                    <div class="alert-item warning">
-                                        <div class="alert-icon">
-                                            <i class="fas fa-exclamation-triangle"></i>
-                                        </div>
-                                        <div class="alert-content">
-                                            <div class="alert-title">Cihaz Bağlantı Kopukluğu</div>
-                                            <div class="alert-desc">Telematik Cihaz ID: TL-892 - Sinyal zayıflaması</div>
-                                            <div class="alert-time">3 dakika önce</div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="alert-item info">
-                                        <div class="alert-icon">
-                                            <i class="fas fa-info-circle"></i>
-                                        </div>
-                                        <div class="alert-content">
-                                            <div class="alert-title">Yazılım Güncellemesi</div>
-                                            <div class="alert-desc">ECU ID: ECU-342 - Güncelleme başarıyla tamamlandı</div>
-                                            <div class="alert-time">7 dakika önce</div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="alert-item critical">
-                                        <div class="alert-icon">
-                                            <i class="fas fa-exclamation-circle"></i>
-                                        </div>
-                                        <div class="alert-content">
-                                            <div class="alert-title">Cihaz Arızası</div>
-                                            <div class="alert-desc">Şarj İstasyonu ID: SH-123 - Şarj portu arızası</div>
-                                            <div class="alert-time">9 dakika önce</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Cybersecurity Dashboard -->
-            <div class="dashboard-content" id="cybersecurity" role="tabpanel" aria-labelledby="cybersecurity-tab" hidden>
-                <div class="demo-container">
-                    <div class="demo-screen">
-                        <div class="demo-header">
-                            <div class="demo-title">
-                                <i class="fas fa-shield-alt"></i>
-                                <span>Siber Güvenlik Operasyon Merkezi</span>
-                            </div>
-                            <div class="demo-controls">
-                                <button class="demo-btn" id="scan-threats"><i class="fas fa-radar"></i></button>
-                                <button class="demo-btn" id="block-threats"><i class="fas fa-shield-virus"></i></button>
-                                <button class="demo-btn" id="report-threats"><i class="fas fa-file-alt"></i></button>
-                                <button class="demo-btn"><i class="fas fa-expand"></i></button>
-                                <button class="demo-btn"><i class="fas fa-cog"></i></button>
-                            </div>
-                        </div>
-                        
-                        <div class="demo-content">
-                            <div class="cybersecurity-overview">
-                                <div class="cybersecurity-stats">
-                                    <div class="cyber-stat-card">
-                                        <div class="stat-header">
-                                            <span class="stat-title">Korunan Araç</span>
-                                            <i class="fas fa-car-side"></i>
-                                        </div>
-                                        <div class="stat-value">2,847</div>
-                                        <div class="stat-change positive">
-                                            <i class="fas fa-arrow-up"></i>
-                                            <span>12%</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="cyber-stat-card">
-                                        <div class="stat-header">
-                                            <span class="stat-title">Aktif Tehdit</span>
-                                            <i class="fas fa-exclamation-triangle"></i>
-                                        </div>
-                                        <div class="stat-value">23</div>
-                                        <div class="stat-change negative">
-                                            <i class="fas fa-arrow-up"></i>
-                                            <span>8%</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="cyber-stat-card">
-                                        <div class="stat-header">
-                                            <span class="stat-title">Engellenen Saldırı</span>
-                                            <i class="fas fa-shield-alt"></i>
-                                        </div>
-                                        <div class="stat-value">142</div>
-                                        <div class="stat-change positive">
-                                            <i class="fas fa-arrow-up"></i>
-                                            <span>24%</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="cyber-stat-card">
-                                        <div class="stat-header">
-                                            <span class="stat-title">Sistem Durumu</span>
-                                            <i class="fas fa-server"></i>
-                                        </div>
-                                        <div class="stat-value">98.7%</div>
-                                        <div class="stat-change positive">
-                                            <i class="fas fa-arrow-up"></i>
-                                            <span>0.3%</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="cybersecurity-map">
-                                <div class="threat-map-legend">
-                                    <div class="legend-item">
-                                        <span class="legend-dot normal"></span>
-                                        <span>Güvenli</span>
-                                    </div>
-                                    <div class="legend-item">
-                                        <span class="legend-dot warning"></span>
-                                        <span>İzleniyor</span>
-                                    </div>
-                                    <div class="legend-item">
-                                        <span class="legend-dot critical"></span>
-                                        <span>Tehdit Altında</span>
-                                    </div>
-                                </div>
-                                <div class="threat-map" id="threat-map">
-                                    <!-- Leaflet map will be initialized here -->
-                                </div>
-                            </div>
-                            
-                            <div class="threat-analysis">
-                                <div class="analysis-header">
-                                    <h4>Tehdit Analizi</h4>
-                                    <div class="analysis-controls">
-                                        <button class="analysis-btn active">Tehdit Türleri</button>
-                                        <button class="analysis-btn">Saldırı Vektörleri</button>
-                                        <button class="analysis-btn">Etki Analizi</button>
-                                    </div>
-                                </div>
-                                <div class="analysis-content">
-                                    <div class="threat-types">
-                                        <div class="threat-type-card">
-                                            <div class="threat-type-icon">
-                                                <i class="fas fa-virus"></i>
-                                            </div>
-                                            <div class="threat-type-info">
-                                                <h5>Malware</h5>
-                                                <div class="threat-count">8</div>
-                                                <div class="threat-percentage">28%</div>
-                                            </div>
-                                            <div class="threat-trend up">
-                                                <i class="fas fa-arrow-up"></i>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="threat-type-card">
-                                            <div class="threat-type-icon">
-                                                <i class="fas fa-user-secret"></i>
-                                            </div>
-                                            <div class="threat-type-info">
-                                                <h5>Yetkisiz Erişim</h5>
-                                                <div class="threat-count">12</div>
-                                                <div class="threat-percentage">42%</div>
-                                            </div>
-                                            <div class="threat-trend up">
-                                                <i class="fas fa-arrow-up"></i>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="threat-type-card">
-                                            <div class="threat-type-icon">
-                                                <i class="fas fa-broadcast-tower"></i>
-                                            </div>
-                                            <div class="threat-type-info">
-                                                <h5>Sinyal Baskısı</h5>
-                                                <div class="threat-count">5</div>
-                                                <div class="threat-percentage">17%</div>
-                                            </div>
-                                            <div class="threat-trend down">
-                                                <i class="fas fa-arrow-down"></i>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="threat-type-card">
-                                            <div class="threat-type-icon">
-                                                <i class="fas fa-network-wired"></i>
-                                            </div>
-                                            <div class="threat-type-info">
-                                                <h5>Ağ Saldırıları</h5>
-                                                <div class="threat-count">3</div>
-                                                <div class="threat-percentage">13%</div>
-                                            </div>
-                                            <div class="threat-trend stable">
-                                                <i class="fas fa-minus"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="security-events">
-                                <div class="events-header">
-                                    <h4>Güvenlik Olayları</h4>
-                                    <div class="events-filter">
-                                        <button class="filter-btn active">Tümü</button>
-                                        <button class="filter-btn">Kritik</button>
-                                        <button class="filter-btn">Uyarı</button>
-                                        <button class="filter-btn">Bilgi</button>
-                                    </div>
-                                </div>
-                                <div class="events-timeline">
-                                    <div class="event-item critical">
-                                        <div class="event-time">14:32</div>
-                                        <div class="event-marker critical"></div>
-                                        <div class="event-content">
-                                            <div class="event-title">CAN Bus Saldırısı Engellendi</div>
-                                            <div class="event-desc">Araç ID: TR-342 - Anormal veri akışı tespit edildi ve engellendi</div>
-                                            <div class="event-location">İstanbul, Maslak</div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="event-item warning">
-                                        <div class="event-time">14:28</div>
-                                        <div class="event-marker warning"></div>
-                                        <div class="event-content">
-                                            <div class="event-title">Şifreleme Anomalisi</div>
-                                            <div class="event-desc">Araç ID: TR-189 - Zayıf şifreleme protokolü tespit edildi</div>
-                                            <div class="event-location">Ankara, Çankaya</div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="event-item info">
-                                        <div class="event-time">14:25</div>
-                                        <div class="event-marker info"></div>
-                                        <div class="event-content">
-                                            <div class="event-title">Yazılım Güncellemesi</div>
-                                            <div class="event-desc">Araç ID: TR-567 - Güvenlik güncellemesi başarıyla tamamlandı</div>
-                                            <div class="event-location">İzmir, Bornova</div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="event-item critical">
-                                        <div class="event-time">14:18</div>
-                                        <div class="event-marker critical"></div>
-                                        <div class="event-content">
-                                            <div class="event-title">OBD-II Port Erişimi</div>
-                                            <div class="event-desc">Araç ID: TR-891 - Yetkisiz OBD-II port erişimi girişimi</div>
-                                            <div class="event-location">Bursa, Nilüfer</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="threat-intelligence">
-                                <div class="threat-header">
-                                    <h4>Tehdit İstihbaratı</h4>
-                                    <span class="threat-time">Son 15 dakika</span>
-                                </div>
-                                <div class="threat-list">
-                                    <div class="threat-item critical">
-                                        <div class="threat-icon">
-                                            <i class="fas fa-exclamation-circle"></i>
-                                        </div>
-                                        <div class="threat-content">
-                                            <div class="threat-title">Kritik: CAN Bus Saldırısı</div>
-                                            <div class="threat-desc">Araç ID: TR-342 - Anormal veri akışı tespit edildi</div>
-                                            <div class="threat-time">2 dakika önce</div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="threat-item warning">
-                                        <div class="threat-icon">
-                                            <i class="fas fa-exclamation-triangle"></i>
-                                        </div>
-                                        <div class="threat-content">
-                                            <div class="threat-title">Uyarı: Şifreleme Anomalisi</div>
-                                            <div class="threat-desc">Araç ID: TR-189 - Zayıf şifreleme protokolü</div>
-                                            <div class="threat-time">4 dakika önce</div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="threat-item info">
-                                        <div class="threat-icon">
-                                            <i class="fas fa-info-circle"></i>
-                                        </div>
-                                        <div class="threat-content">
-                                            <div class="threat-title">Bilgi: Yazılım Güncellemesi</div>
-                                            <div class="threat-desc">Araç ID: TR-567 - Güvenlik güncellemesi tamamlandı</div>
-                                            <div class="threat-time">5 dakika önce</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Predictive Maintenance Dashboard -->
-            <div class="dashboard-content" id="predictive-maintenance" role="tabpanel" aria-labelledby="predictive-maintenance-tab" hidden>
-                <div class="demo-container">
-                    <div class="demo-screen">
-                        <div class="demo-header">
-                            <div class="demo-title">
-                                <i class="fas fa-tools"></i>
-                                <span>Kestirimci Bakım Merkezi</span>
-                            </div>
-                            <div class="demo-controls">
-                                <button class="demo-btn" id="schedule-maintenance"><i class="fas fa-calendar-plus"></i></button>
-                                <button class="demo-btn" id="analyze-predictions"><i class="fas fa-chart-line"></i></button>
-                                <button class="demo-btn" id="export-reports"><i class="fas fa-file-export"></i></button>
-                                <button class="demo-btn"><i class="fas fa-expand"></i></button>
-                                <button class="demo-btn"><i class="fas fa-cog"></i></button>
-                            </div>
-                        </div>
-                        
-                        <div class="demo-content">
-                            <div class="maintenance-overview">
-                                <div class="maintenance-stats-grid">
-                                    <div class="maintenance-stat-card">
-                                        <div class="stat-header">
-                                            <span class="stat-title">Bakım Planlanan</span>
-                                            <i class="fas fa-calendar-check"></i>
-                                        </div>
-                                        <div class="stat-value">127</div>
-                                        <div class="stat-change positive">
-                                            <i class="fas fa-arrow-down"></i>
-                                            <span>15 azaldı</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="maintenance-stat-card">
-                                        <div class="stat-header">
-                                            <span class="stat-title">Acil Bakım</span>
-                                            <i class="fas fa-exclamation-triangle"></i>
-                                        </div>
-                                        <div class="stat-value">18</div>
-                                        <div class="stat-change negative">
-                                            <i class="fas fa-arrow-up"></i>
-                                            <span>3 arttı</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="maintenance-stat-card">
-                                        <div class="stat-header">
-                                            <span class="stat-title">Tamamlanan</span>
-                                            <i class="fas fa-check-circle"></i>
-                                        </div>
-                                        <div class="stat-value">342</div>
-                                        <div class="stat-change positive">
-                                            <i class="fas fa-arrow-up"></i>
-                                            <span>28 bu ay</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="maintenance-stat-card">
-                                        <div class="stat-header">
-                                            <span class="stat-title">Maliyet Tasarrufu</span>
-                                            <i class="fas fa-dollar-sign"></i>
-                                        </div>
-                                        <div class="stat-value">€47.2K</div>
-                                        <div class="stat-change positive">
-                                            <i class="fas fa-arrow-up"></i>
-                                            <span>12%</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="maintenance-forecast">
-                                <div class="forecast-header">
-                                    <h4>Bakım Tahminleri</h4>
-                                    <div class="forecast-controls">
-                                        <button class="forecast-btn active">Haftalık</button>
-                                        <button class="forecast-btn">Aylık</button>
-                                        <button class="forecast-btn">3 Aylık</button>
-                                    </div>
-                                </div>
-                                <div class="forecast-content">
-                                    <div class="forecast-chart">
-                                        <div class="chart-title">Bakım Talep Tahmini</div>
-                                        <div class="chart-container">
-                                            <div class="chart-line">
-                                                <div class="line-point" style="left: 0%; bottom: 30%;">
-                                                    <div class="point-tooltip">Hafta 1: 12 Bakım</div>
-                                                </div>
-                                                <div class="line-point" style="left: 16.66%; bottom: 45%;">
-                                                    <div class="point-tooltip">Hafta 2: 18 Bakım</div>
-                                                </div>
-                                                <div class="line-point" style="left: 33.33%; bottom: 65%;">
-                                                    <div class="point-tooltip">Hafta 3: 25 Bakım</div>
-                                                </div>
-                                                <div class="line-point" style="left: 50%; bottom: 55%;">
-                                                    <div class="point-tooltip">Hafta 4: 22 Bakım</div>
-                                                </div>
-                                                <div class="line-point" style="left: 66.66%; bottom: 40%;">
-                                                    <div class="point-tooltip">Hafta 5: 15 Bakım</div>
-                                                </div>
-                                                <div class="line-point" style="left: 83.33%; bottom: 35%;">
-                                                    <div class="point-tooltip">Hafta 6: 13 Bakım</div>
-                                                </div>
-                                                <div class="line-point" style="left: 100%; bottom: 50%;">
-                                                    <div class="point-tooltip">Hafta 7: 20 Bakım</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="forecast-summary">
-                                        <div class="summary-item">
-                                            <div class="summary-label">Ortalama Haftalık Bakım</div>
-                                            <div class="summary-value">17.9</div>
-                                        </div>
-                                        <div class="summary-item">
-                                            <div class="summary-label">Tepe Noktası</div>
-                                            <div class="summary-value">Hafta 3</div>
-                                        </div>
-                                        <div class="summary-item">
-                                            <div class="summary-label">Toplam Tahmin</div>
-                                            <div class="summary-value">125</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="maintenance-predictions">
-                                <div class="prediction-header">
-                                    <h4>Kritik Bakım Öngörüleri</h4>
-                                    <div class="prediction-filter">
-                                        <button class="filter-btn active">Tümü</button>
-                                        <button class="filter-btn">Kritik</button>
-                                        <button class="filter-btn">Yüksek</button>
-                                        <button class="filter-btn">Orta</button>
-                                    </div>
-                                </div>
-                                <div class="prediction-list">
-                                    <div class="prediction-item critical">
-                                        <div class="prediction-icon">
-                                            <i class="fas fa-exclamation-circle"></i>
-                                        </div>
-                                        <div class="prediction-content">
-                                            <div class="prediction-title">Fren Sistemi Bakımı</div>
-                                            <div class="prediction-desc">Araç ID: TR-342 - Fren diskleri %85 kullanıldı</div>
-                                            <div class="prediction-time">Öngörülen: 7 gün içinde</div>
-                                            <div class="prediction-cost">Tahmini Maliyet: €450</div>
-                                        </div>
-                                        <div class="prediction-actions">
-                                            <button class="action-btn">Planla</button>
-                                            <button class="action-btn">Detaylar</button>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="prediction-item warning">
-                                        <div class="prediction-icon">
-                                            <i class="fas fa-exclamation-triangle"></i>
-                                        </div>
-                                        <div class="prediction-content">
-                                            <div class="prediction-title">Akü Değişimi</div>
-                                            <div class="prediction-desc">Araç ID: TR-189 - Akü verimliliği düştü</div>
-                                            <div class="prediction-time">Öngörülen: 14 gün içinde</div>
-                                            <div class="prediction-cost">Tahmini Maliyet: €180</div>
-                                        </div>
-                                        <div class="prediction-actions">
-                                            <button class="action-btn">Planla</button>
-                                            <button class="action-btn">Detaylar</button>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="prediction-item info">
-                                        <div class="prediction-icon">
-                                            <i class="fas fa-info-circle"></i>
-                                        </div>
-                                        <div class="prediction-content">
-                                            <div class="prediction-title">Yağ Değişimi</div>
-                                            <div class="prediction-desc">Araç ID: TR-567 - Motor yağı ömrü dolmak üzere</div>
-                                            <div class="prediction-time">Öngörülen: 30 gün içinde</div>
-                                            <div class="prediction-cost">Tahmini Maliyet: €65</div>
-                                        </div>
-                                        <div class="prediction-actions">
-                                            <button class="action-btn">Planla</button>
-                                            <button class="action-btn">Detaylar</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="maintenance-performance">
-                                <div class="performance-header">
-                                    <h4>Bakım Performans Metrikleri</h4>
-                                    <div class="performance-period">
-                                        <button class="period-btn active">Son 30 Gün</button>
-                                        <button class="period-btn">Son 3 Ay</button>
-                                        <button class="period-btn">Son Yıl</button>
-                                    </div>
-                                </div>
-                                <div class="performance-metrics">
-                                    <div class="metric-card">
-                                        <div class="metric-title">Öngörü Doğruluğu</div>
-                                        <div class="metric-value">92.3%</div>
-                                        <div class="metric-change positive">
-                                            <i class="fas fa-arrow-up"></i>
-                                            <span>3.2%</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="metric-card">
-                                        <div class="metric-title">Ortalama Onarım Süresi</div>
-                                        <div class="metric-value">2.4 saat</div>
-                                        <div class="metric-change positive">
-                                            <i class="fas fa-arrow-down"></i>
-                                            <span>0.8 saat</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="metric-card">
-                                        <div class="metric-title">Maliyet Verimliliği</div>
-                                        <div class="metric-value">€1,240</div>
-                                        <div class="metric-change positive">
-                                            <i class="fas fa-arrow-up"></i>
-                                            <span>€180</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="metric-card">
-                                        <div class="metric-title">Araç Kullanılabilirliği</div>
-                                        <div class="metric-value">98.7%</div>
-                                        <div class="metric-change positive">
-                                            <i class="fas fa-arrow-up"></i>
-                                            <span>1.2%</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="maintenance-chart">
-                                <div class="chart-header">
-                                    <h4>Bakım Trendleri</h4>
-                                    <div class="chart-controls">
-                                        <button class="chart-btn active">Haftalık</button>
-                                        <button class="chart-btn">Aylık</button>
-                                        <button class="chart-btn">Yıllık</button>
-                                    </div>
-                                </div>
-                                <div class="chart-container">
-                                    <div class="chart-bars">
-                                        <div class="chart-bar">
-                                            <div class="bar completed" style="height: 70%"></div>
-                                            <span class="bar-label">Pzt</span>
-                                        </div>
-                                        <div class="chart-bar">
-                                            <div class="bar completed" style="height: 85%"></div>
-                                            <span class="bar-label">Sal</span>
-                                        </div>
-                                        <div class="chart-bar">
-                                            <div class="bar planned" style="height: 60%"></div>
-                                            <span class="bar-label">Çar</span>
-                                        </div>
-                                        <div class="chart-bar">
-                                            <div class="bar completed" style="height: 90%"></div>
-                                            <span class="bar-label">Per</span>
-                                        </div>
-                                        <div class="chart-bar">
-                                            <div class="bar urgent" style="height: 40%"></div>
-                                            <span class="bar-label">Cum</span>
-                                        </div>
-                                        <div class="chart-bar">
-                                            <div class="bar completed" style="height: 75%"></div>
-                                            <span class="bar-label">Cmt</span>
-                                        </div>
-                                        <div class="chart-bar">
-                                            <div class="bar planned" style="height: 50%"></div>
-                                            <span class="bar-label">Paz</span>
-                                        </div>
-                                    </div>
-                                    <div class="chart-legend">
-                                        <div class="legend-item">
-                                            <span class="legend-color completed"></span>
-                                            <span>Tamamlandı</span>
-                                        </div>
-                                        <div class="legend-item">
-                                            <span class="legend-color planned"></span>
-                                            <span>Planlandı</span>
-                                        </div>
-                                        <div class="legend-item">
-                                            <span class="legend-color urgent"></span>
-                                            <span>Acil</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+            <div id="maintenance-list" class="maintenance-list"></div>
+        </div>
 
+        <div id="map-view" class="tab-content">
+            <div class="map-controls">
+                <button class="btn btn-small" id="toggle-realtime">
+                    <i class="fas fa-pause"></i>
+                    <span id="realtime-text">Gerçek Zamanı Durdur</span>
+                </button>
+                <select id="map-layer" class="filter-select">
+                    <option value="light">Varsayılan</option>
+                    <option value="dark">Koyu</option>
+                    <option value="satellite">Alternatif</option>
+                </select>
+            </div>
+            <div id="map" class="map-container"></div>
+        </div>
 
-        <!-- Footer -->
-        <footer>
+        <footer class="app-footer">
             <div class="footer-content">
-                <div class="footer-logo">
-                    <h2>SİNGULARİTY</h2>
-                    <p>Otomotiv IoT Siber Güvenlik Platformu</p>
+                <div class="footer-section">
+                    <h3><i class="fas fa-shield-alt"></i> Singularity</h3>
+                    <p>Endüstriyel IoT Siber Güvenlik ve Cihaz Yönetimi Platformu</p>
                 </div>
-                
-                <div class="footer-links">
-                    <div class="footer-column">
-                        <h3>Platform</h3>
-                        <ul>
-                            <li><a href="#overview">Genel Bakış</a></li>
-                            <li><a href="#features">Özellikler</a></li>
-                            <li><a href="#architecture">Mimari</a></li>
-                            <li><a href="#demo">Demo</a></li>
-                        </ul>
-                    </div>
-                    
-                    <div class="footer-column">
-                        <h3>Şirket</h3>
-                        <ul>
-                            <li><a href="#about">Hakkımızda</a></li>
-                            <li><a href="#careers">Kariyer</a></li>
-                            <li><a href="#news">Haberler</a></li>
-                            <li><a href="#contact">İletişim</a></li>
-                        </ul>
-                    </div>
-                    
-                    <div class="footer-column">
-                        <h3>İletişim</h3>
-                        <ul>
-                            <li><i class="fas fa-envelope"></i> info@singularityrd.com</li>
-                            <li><i class="fas fa-phone"></i> +90 212 555 0123</li>
-                            <li><i class="fas fa-map-marker-alt"></i> İstanbul, Türkiye</li>
-                        </ul>
-                    </div>
+                <div class="footer-section">
+                    <h4>İletişim</h4>
+                    <p>
+                        <a href="mailto:info@singularityrd.com" class="footer-link">
+                            <i class="fas fa-envelope"></i>
+                            info@singularityrd.com
+                        </a>
+                    </p>
+                    <p>
+                        <a href="https://singularityrd.com" target="_blank" rel="noopener" class="footer-link">
+                            <i class="fas fa-globe"></i>
+                            singularityrd.com
+                        </a>
+                    </p>
                 </div>
             </div>
-            
             <div class="footer-bottom">
-                <p>&copy; 2023 Singularity Technologies. Tüm hakları saklıdır.</p>
-                <div class="social-links">
-                    <a href="https://twitter.com/singularityrd" target="_blank"><i class="fab fa-twitter"></i></a>
-                    <a href="https://linkedin.com/company/singularityrd" target="_blank"><i class="fab fa-linkedin"></i></a>
-                    <a href="https://singularityrd.com" target="_blank"><i class="fab fa-globe"></i></a>
-                </div>
+                <p>© 2025 Singularity. Tüm hakları saklıdır.</p>
+                <p class="footer-notice">
+                    <i class="fas fa-info-circle"></i>
+                    Bu bir simülasyondur, gerçek veriler içermez
+                </p>
             </div>
         </footer>
+    </main>
 
-        <!-- Add notification system -->
-        <div class="notification-container" id="notification-container"></div>
-        
-        <!-- Screen Reader Announcements -->
-        <div aria-live="polite" aria-atomic="true" class="sr-only" id="screen-reader-announcements"></div>
+    <nav class="bottom-nav">
+        <button class="nav-item active" data-tab="device-management" aria-label="Cihaz Yönetimi">
+            <i class="fas fa-car"></i>
+            <span>Cihaz</span>
+        </button>
+        <button class="nav-item" data-tab="cybersecurity" aria-label="Siber Güvenlik">
+            <i class="fas fa-shield-alt"></i>
+            <span>Siber</span>
+        </button>
+        <button class="nav-item" data-tab="predictive-maintenance" aria-label="Kestirimci Bakım">
+            <i class="fas fa-wrench"></i>
+            <span>Bakım</span>
+        </button>
+        <button class="nav-item" data-tab="map-view" aria-label="Harita">
+            <i class="fas fa-map"></i>
+            <span>Harita</span>
+        </button>
+    </nav>
+
+    <div id="bottom-sheet" class="bottom-sheet">
+        <div class="bottom-sheet-handle"></div>
+        <div id="bottom-sheet-content" class="bottom-sheet-content"></div>
     </div>
-    
-    <!-- Leaflet JavaScript -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
-    <script src="map-functions.js"></script>
-    <script src="script.js"></script>
-    <script src="dashboard-fixes.js"></script>
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <footer class="app-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-shield-alt"></i> Singularity</h3>
+                <p>Endüstriyel IoT Siber Güvenlik ve Cihaz Yönetimi Platformu</p>
+            </div>
+            <div class="footer-section">
+                <h4>İletişim</h4>
+                <p>
+                    <a href="mailto:info@singularityrd.com" class="footer-link">
+                        <i class="fas fa-envelope"></i>
+                        info@singularityrd.com
+                    </a>
+                </p>
+                <p>
+                    <a href="https://singularityrd.com" target="_blank" rel="noopener" class="footer-link">
+                        <i class="fas fa-globe"></i>
+                        singularityrd.com
+                    </a>
+                </p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Singularity. Tüm hakları saklıdır.</p>
+            <p class="footer-notice">
+                <i class="fas fa-info-circle"></i>
+                Bu bir simülasyondur, gerçek veriler içermez
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js" defer></script>
+    <script src="script.js" defer></script>
+    <script src="map-functions.js" defer></script>
+    <script src="dashboard-fixes.js" defer></script>
     <script>
-        // Register Service Worker for PWA support
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/service-worker.js')
-                    .then(registration => {
-                        console.log('Service Worker registered with scope:', registration.scope);
-                    })
-                    .catch(error => {
-                        console.error('Service Worker registration failed:', error);
-                    });
+                navigator.serviceWorker.register('service-worker.js')
+                    .then(reg => console.log('Service Worker kayıtlı'))
+                    .catch(err => console.log('Service Worker kayıt hatası:', err));
             });
         }
+
+        window.addEventListener('online', () => {
+            document.getElementById('offline-banner').classList.add('hidden');
+        });
+        window.addEventListener('offline', () => {
+            document.getElementById('offline-banner').classList.remove('hidden');
+        });
     </script>
 </body>
 </html>

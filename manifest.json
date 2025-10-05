@@ -1,23 +1,104 @@
 {
-  "name": "Singularity - Araç Güvenlik Operasyon Merkezi",
-  "short_name": "Singularity SOC",
-  "description": "Otonom araç filolarına yönelik yapay zeka destekli güvenlik operasyon merkezi",
-  "start_url": "index.html",
+  "name": "Singularity - Otomotiv IoT Güvenlik",
+  "short_name": "Singularity",
+  "description": "Otomotiv IoT Siber Güvenlik ve Kestirimci Bakım Platformu",
+  "start_url": "./",
   "display": "standalone",
-  "background_color": "#0c0c1c",
-  "theme_color": "#2c3e72",
+  "background_color": "#1a1a2e",
+  "theme_color": "#1a1a2e",
+  "orientation": "portrait-primary",
+  "scope": "./",
+  "lang": "tr",
+  "dir": "ltr",
   "icons": [
     {
-      "src": "images/icon-192.png",
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' fill='%236366f1'/%3E%3Cpath d='M96 48c-26.5 0-48 21.5-48 48s21.5 48 48 48 48-21.5 48-48-21.5-48-48-48zm0 80c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z' fill='white'/%3E%3Cpath d='M96 80c-8.8 0-16 7.2-16 16s7.2 16 16 16 16-7.2 16-16-7.2-16-16-16z' fill='white'/%3E%3C/svg%3E",
       "sizes": "192x192",
-      "type": "image/png",
+      "type": "image/svg+xml",
       "purpose": "any maskable"
     },
     {
-      "src": "images/icon-512.png",
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%236366f1'/%3E%3Cpath d='M256 128c-70.7 0-128 57.3-128 128s57.3 128 128 128 128-57.3 128-128-57.3-128-128-128zm0 213.3c-47.1 0-85.3-38.2-85.3-85.3s38.2-85.3 85.3-85.3 85.3 38.2 85.3 85.3-38.2 85.3-85.3 85.3z' fill='white'/%3E%3Cpath d='M256 213.3c-23.6 0-42.7 19.1-42.7 42.7s19.1 42.7 42.7 42.7 42.7-19.1 42.7-42.7-19.1-42.7-42.7-42.7z' fill='white'/%3E%3C/svg%3E",
       "sizes": "512x512",
-      "type": "image/png",
+      "type": "image/svg+xml",
       "purpose": "any maskable"
     }
+  ],
+  "screenshots": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 540 720'%3E%3Crect width='540' height='720' fill='%23f9fafb'/%3E%3Ctext x='270' y='360' font-size='24' text-anchor='middle' fill='%236366f1'%3ESingularity Dashboard%3C/text%3E%3C/svg%3E",
+      "sizes": "540x720",
+      "type": "image/svg+xml",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1024 768'%3E%3Crect width='1024' height='768' fill='%23f9fafb'/%3E%3Ctext x='512' y='384' font-size='32' text-anchor='middle' fill='%236366f1'%3ESingularity Dashboard%3C/text%3E%3C/svg%3E",
+      "sizes": "1024x768",
+      "type": "image/svg+xml",
+      "form_factor": "wide"
+    }
+  ],
+  "categories": [
+    "business",
+    "productivity",
+    "utilities"
+  ],
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "Cihaz Yönetimi",
+      "short_name": "Cihazlar",
+      "description": "Araç yönetimi ve izleme",
+      "url": "./?tab=device-management",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' fill='%2310b981'/%3E%3C/svg%3E",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Siber Güvenlik",
+      "short_name": "Siber",
+      "description": "Tehdit izleme ve analiz",
+      "url": "./?tab=cybersecurity",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' fill='%23ef4444'/%3E%3C/svg%3E",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Harita",
+      "short_name": "Harita",
+      "description": "Araç konumları ve harita görünümü",
+      "url": "./?tab=map-view",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' fill='%233b82f6'/%3E%3C/svg%3E",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    }
+  ],
+  "share_target": {
+    "action": "./",
+    "method": "GET",
+    "enctype": "application/x-www-form-urlencoded",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  "display_override": [
+    "window-controls-overlay",
+    "standalone",
+    "minimal-ui",
+    "browser"
   ]
-} 
+}

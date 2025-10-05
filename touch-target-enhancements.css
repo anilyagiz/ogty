@@ -1,433 +1,307 @@
-/* Touch Target Enhancements - Ensure 44x44px Minimum Size for All Interactive Elements */
+/* Touch Target Enhancements - Minimum 44x44px */
 
-/* Global touch target enhancements for mobile devices */
-@media (max-width: 767px) {
-  /* Ensure all interactive elements meet minimum touch target size */
-  button,
-  .btn,
-  .btn-primary,
-  .btn-secondary,
-  input[type="button"],
-  input[type="submit"],
-  input[type="reset"],
-  select,
-  textarea,
-  a,
-  .control-buttons button,
-  .hamburger-menu,
-  .nav-menu a,
-  .dashboard-item,
-  .feature-card,
-  .stat-card,
-  .ai-agent-card,
-  .threat-item,
-  .metric-item,
-  .compliance-item,
-  .leaflet-control-zoom a,
-  .leaflet-control-layers-toggle,
-  .search-control input,
-  .search-clear-btn,
-  .time-display,
-  .dashboard-controls button {
+/* Ensure all interactive elements meet touch target size */
+button,
+.btn,
+.icon-btn,
+.nav-item,
+.filter-select,
+input[type="button"],
+input[type="submit"],
+input[type="checkbox"],
+input[type="radio"],
+a {
     min-width: 44px;
     min-height: 44px;
-    /* Ensure padding doesn't reduce touch target size */
-    box-sizing: border-box;
-  }
-  
-  /* Special handling for form inputs to prevent auto-zoom on iOS */
-  input[type="text"],
-  input[type="email"],
-  input[type="password"],
-  input[type="search"],
-  input[type="tel"],
-  input[type="url"],
-  input[type="number"] {
-    min-height: 44px;
-    font-size: 16px; /* Prevents auto-zoom on iOS */
-    padding: 12px;
-  }
-  
-  /* Enhanced touch targets for dashboard controls */
-  .control-buttons button {
-    min-width: 44px;
-    min-height: 44px;
-    padding: 12px;
-    margin: 2px;
-    border-radius: 8px;
-  }
-  
-  /* Mobile-optimized navigation */
-  .nav-menu ul li a {
-    padding: 14px 18px;
-    font-size: 16px; /* Prevents auto-zoom on iOS */
-    min-height: 48px;
-    display: flex;
-    align-items: center;
-  }
-  
-  /* Hamburger menu touch target */
-  .hamburger-menu {
-    width: 48px;
-    height: 48px;
-    padding: 12px;
-  }
-  
-  /* Touch-friendly dashboard items */
-  .dashboard-item {
-    touch-action: manipulation;
+}
+
+/* Enhanced bottom navigation for mobile */
+.bottom-nav {
     -webkit-tap-highlight-color: transparent;
-    padding: 20px;
-  }
-  
-  /* Enhanced touch targets for map controls */
-  .leaflet-control-zoom a {
-    min-width: 48px !important;
-    min-height: 48px !important;
-    font-size: 20px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-  
-  .leaflet-control-layers-toggle {
-    min-width: 48px !important;
-    min-height: 48px !important;
-  }
-  
-  /* Search control touch enhancements */
-  .search-control input {
-    min-height: 48px;
-    padding: 12px 16px;
-  }
-  
-  .search-clear-btn {
-    min-width: 44px;
+    touch-action: manipulation;
+}
+
+.nav-item {
+    position: relative;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 60%;
+    height: 3px;
+    background: var(--primary);
+    border-radius: 0 0 3px 3px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-item.active::before {
+    transform: translateX(-50%) scaleX(1);
+}
+
+.nav-item:active {
+    transform: scale(0.92);
+    background: var(--bg-secondary);
+}
+
+/* Footer link touch enhancements */
+.footer-link {
     min-height: 44px;
-    padding: 12px;
-  }
-  
-  /* Time display touch target */
-  .time-display {
+    padding: var(--spacing-sm) var(--spacing-xs);
+    border-radius: var(--radius-sm);
+    transition: all 0.2s ease;
+}
+
+.footer-link:active {
+    transform: scale(0.98);
+    background: var(--bg-secondary);
+}
+
+/* Touch feedback for interactive elements */
+.vehicle-card,
+.threat-card,
+.maintenance-card,
+.btn,
+.icon-btn,
+.nav-item {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* Enhanced touch feedback animations */
+.vehicle-card:active,
+.threat-card:active,
+.maintenance-card:active {
+    transform: scale(0.98);
+    transition: transform 100ms ease-out;
+}
+
+.btn:active {
+    transform: scale(0.95);
+    transition: transform 100ms ease-out;
+}
+
+.icon-btn:active {
+    transform: scale(0.9);
+    transition: transform 100ms ease-out;
+}
+
+.nav-item:active {
+    transform: scale(0.95);
+    opacity: 0.7;
+    transition: transform 100ms ease-out, opacity 100ms ease-out;
+}
+
+/* Increased spacing between interactive elements */
+.filters {
+    gap: max(var(--spacing-sm), 8px);
+}
+
+.vehicle-list,
+.threat-list,
+.maintenance-list {
+    gap: max(var(--spacing-md), 12px);
+}
+
+.bottom-nav {
+    gap: max(var(--spacing-sm), 8px);
+}
+
+/* Touch-friendly form controls */
+.filter-select {
     min-height: 44px;
-    padding: 12px 16px;
-    display: flex;
-    align-items: center;
-  }
-  
-  /* Ensure proper spacing between touch targets */
-  .control-buttons {
-    gap: 8px;
-  }
-  
-  .nav-menu ul {
-    gap: 0;
-  }
-  
-  .nav-menu ul li {
-    border-bottom: 1px solid rgba(75, 107, 220, 0.1);
-  }
-  
-  /* Touch-friendly scrollable containers */
-  .threat-list,
-  .ai-agent-metrics,
-  .log-analysis-container,
-  .performance-metrics,
-  .timeline-container,
-  .compliance-container,
-  .ai-learning-container,
-  .network-anomaly-container,
-  .attack-vector-container {
+    padding: 10px var(--spacing-md);
+    font-size: 16px; /* Prevents zoom on iOS */
+}
+
+/* Larger touch targets for small icons */
+.vehicle-stat {
+    padding: var(--spacing-xs) 0;
+}
+
+.chip {
+    padding: 6px var(--spacing-sm);
+    min-height: 28px;
+}
+
+/* Bottom sheet handle - larger touch area */
+.bottom-sheet-handle {
+    width: 48px;
+    height: 5px;
+    margin: var(--spacing-md) auto;
+    position: relative;
+}
+
+.bottom-sheet-handle::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    right: -12px;
+    bottom: -12px;
+}
+
+/* Swipe gestures support */
+.bottom-sheet {
+    overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
-    scroll-behavior: smooth;
-  }
-  
-  /* Enhanced scrollbar touch targets */
-  .threat-list::-webkit-scrollbar,
-  .ai-agent-metrics::-webkit-scrollbar,
-  .log-analysis-container::-webkit-scrollbar,
-  .performance-metrics::-webkit-scrollbar {
-    width: 12px;
-  }
-  
-  /* Touch-friendly stat items */
-  .stat-item {
-    min-height: 44px;
-    padding: 12px;
-  }
-  
-  /* Touch-friendly feature cards */
-  .feature-card {
-    padding: 20px;
-  }
-  
-  /* Touch-friendly AI agent cards */
-  .ai-agent-card {
-    padding: 16px;
-    min-height: 88px; /* Double touch target height for better usability */
-  }
-  
-  /* Touch-friendly threat items */
-  .threat-item {
-    padding: 16px;
-    min-height: 88px;
-  }
-  
-  /* Touch-friendly metric items */
-  .metric-item {
-    padding: 16px;
-    min-height: 72px;
-  }
-  
-  /* Touch-friendly compliance items */
-  .compliance-item {
-    padding: 16px;
-    min-height: 72px;
-  }
-  
-  /* Special styling for world map on mobile to make it more prominent */
-  .world-map {
-    min-height: 300px;
-    padding: 15px;
-    /* Make sure the map header is clearly visible */
-    .dashboard-header h3 {
-      font-size: 1.4rem;
-      margin-bottom: 15px;
+}
+
+.filters {
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+}
+
+.pipeline-container {
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Prevent double-tap zoom on specific elements */
+.stat-card,
+.vehicle-card,
+.threat-card,
+.maintenance-card {
+    touch-action: manipulation;
+}
+
+/* Hover states for devices that support it */
+@media (hover: hover) and (pointer: fine) {
+    .vehicle-card:hover,
+    .threat-card:hover,
+    .maintenance-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
     }
-  }
+    
+    .btn:hover {
+        opacity: 0.9;
+    }
+    
+    .icon-btn:hover {
+        background: var(--border-color);
+    }
+    
+    .nav-item:hover {
+        background: var(--bg-secondary);
+    }
 }
 
-/* Tablet touch target enhancements */
-@media (min-width: 768px) and (max-width: 1023px) {
-  /* Ensure touch targets are still adequate on tablets */
-  button,
-  .btn,
-  .btn-primary,
-  .btn-secondary,
-  input[type="button"],
-  input[type="submit"],
-  input[type="reset"],
-  select,
-  .control-buttons button,
-  .hamburger-menu,
-  .nav-menu a,
-  .leaflet-control-zoom a,
-  .leaflet-control-layers-toggle,
-  .search-control input,
-  .search-clear-btn,
-  .time-display,
-  .dashboard-controls button {
-    min-width: 44px;
-    min-height: 44px;
-  }
-  
-  /* Tablet-specific adjustments */
-  .control-buttons button {
-    min-width: 44px;
-    min-height: 44px;
-    padding: 10px;
-  }
-  
-  .nav-menu ul li a {
-    padding: 12px 16px;
-    min-height: 44px;
-  }
-  
-  .leaflet-control-zoom a {
-    min-width: 44px !important;
-    min-height: 44px !important;
-  }
-  
-  .leaflet-control-layers-toggle {
-    min-width: 44px !important;
-    min-height: 44px !important;
-  }
-  
-  .search-control input {
-    min-height: 44px;
-  }
-  
-  /* World map styling on tablet */
-  .world-map {
-    min-height: 350px;
-    padding: 20px;
-  }
+/* Focus indicators for accessibility */
+button:focus-visible,
+.btn:focus-visible,
+.icon-btn:focus-visible,
+.nav-item:focus-visible,
+.filter-select:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 2px;
 }
 
-/* Desktop touch target enhancements (for consistency) */
-@media (min-width: 1024px) {
-  /* Ensure consistent touch target sizes across all devices */
-  .control-buttons button,
-  .leaflet-control-zoom a,
-  .leaflet-control-layers-toggle,
-  .search-clear-btn,
-  .dashboard-controls button {
-    min-width: 44px;
-    min-height: 44px;
-  }
-  
-  .leaflet-control-zoom a {
-    min-width: 44px !important;
-    min-height: 44px !important;
-  }
-  
-  .leaflet-control-layers-toggle {
-    min-width: 44px !important;
-    min-height: 44px !important;
-  }
-  
-  /* World map styling on desktop */
-  .world-map {
-    min-height: 400px;
-    padding: 24px;
-  }
+/* Ensure spacing between focusable elements */
+.section-header {
+    gap: var(--spacing-md);
 }
 
-/* Touch Action Optimizations */
-button,
-.btn,
-.btn-primary,
-.btn-secondary,
-input[type="button"],
-input[type="submit"],
-input[type="reset"],
-select,
-a,
-.control-buttons button,
-.hamburger-menu,
-.nav-menu a,
-.dashboard-item,
-.feature-card,
-.stat-card,
-.ai-agent-card,
-.threat-item,
-.metric-item,
-.compliance-item,
-.leaflet-control-zoom a,
-.leaflet-control-layers-toggle,
-.search-control input,
-.search-clear-btn,
-.time-display,
-.dashboard-controls button {
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-  /* Hardware acceleration for smooth touch interactions */
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-  will-change: transform;
+.section-header .btn,
+.section-header .icon-btn {
+    margin-left: auto;
 }
 
-/* Touch Feedback Enhancements */
-button:active,
-.btn:active,
-.btn-primary:active,
-.btn-secondary:active,
-input[type="button"]:active,
-input[type="submit"]:active,
-input[type="reset"]:active,
-select:active,
-a:active,
-.control-buttons button:active,
-.hamburger-menu:active,
-.nav-menu a:active,
-.dashboard-item:active,
-.feature-card:active,
-.stat-card:active,
-.ai-agent-card:active,
-.threat-item:active,
-.metric-item:active,
-.compliance-item:active,
-.leaflet-control-zoom a:active,
-.leaflet-control-layers-toggle:active,
-.search-clear-btn:active,
-.dashboard-controls button:active {
-  transform: scale(0.95);
-  transition: transform 0.1s ease;
+/* Touch-friendly stats cards */
+.stats-grid {
+    gap: max(var(--spacing-sm), 8px);
 }
 
-/* Focus Management for Accessibility */
-button:focus,
-.btn:focus,
-.btn-primary:focus,
-.btn-secondary:focus,
-input[type="button"]:focus,
-input[type="submit"]:focus,
-input[type="reset"]:focus,
-select:focus,
-a:focus,
-.control-buttons button:focus,
-.hamburger-menu:focus,
-.nav-menu a:focus,
-.dashboard-item:focus,
-.feature-card:focus,
-.stat-card:focus,
-.ai-agent-card:focus,
-.threat-item:focus,
-.metric-item:focus,
-.compliance-item:focus,
-.leaflet-control-zoom a:focus,
-.leaflet-control-layers-toggle:focus,
-.search-control input:focus,
-.search-clear-btn:focus,
-.dashboard-controls button:focus {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgba(0, 194, 255, 0.2);
+.stat-card {
+    padding: max(var(--spacing-md), 12px);
+    cursor: default;
 }
 
-/* Prevent text selection during touch interactions */
-button,
-.btn,
-.btn-primary,
-.btn-secondary,
-input[type="button"],
-input[type="submit"],
-input[type="reset"],
-select,
-.control-buttons button,
-.hamburger-menu,
-.nav-menu a,
-.dashboard-item,
-.feature-card,
-.stat-card,
-.ai-agent-card,
-.threat-item,
-.metric-item,
-.compliance-item,
-.leaflet-control-zoom a,
-.leaflet-control-layers-toggle,
-.search-clear-btn,
-.dashboard-controls button {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+/* Enlarged pipeline steps for touch */
+.pipeline-step {
+    min-width: 60px;
+    min-height: 60px;
+    padding: var(--spacing-sm);
 }
 
-/* Allow text selection for readable content */
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-li,
-td,
-th,
-.label,
-.stat-value,
-.stat-label,
-.threat-type,
-.threat-details,
-.threat-location,
-.metric-title,
-.metric-percentage,
-.compliance-info,
-.ai-agent-name,
-.ai-agent-status {
-  -webkit-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
-  user-select: text;
+/* Touch-friendly maintenance actions */
+.maintenance-card {
+    min-height: 120px;
+}
+
+/* Better touch feedback for status badge */
+.status-badge {
+    min-height: 32px;
+    padding: 6px var(--spacing-md);
+}
+
+/* Scrollbar styling for touch devices */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: var(--text-tertiary);
+}
+
+/* Additional spacing for mobile devices */
+@media (max-width: 640px) {
+    .app-content {
+        padding-bottom: calc(var(--spacing-md) + 8px);
+    }
+    
+    .vehicle-card:last-child,
+    .threat-card:last-child,
+    .maintenance-card:last-child {
+        margin-bottom: var(--spacing-md);
+    }
+}
+
+/* iOS specific touch enhancements */
+@supports (-webkit-touch-callout: none) {
+    button,
+    .btn,
+    .icon-btn {
+        -webkit-appearance: none;
+        appearance: none;
+    }
+    
+    .filter-select {
+        -webkit-appearance: none;
+        appearance: none;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill="gray" d="M6 9L1 4h10z"/></svg>');
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        padding-right: 36px;
+    }
+}
+
+/* Android specific touch enhancements */
+@media (pointer: coarse) {
+    * {
+        -webkit-tap-highlight-color: rgba(99, 102, 241, 0.1);
+    }
+    
+    button,
+    .btn,
+    .icon-btn,
+    .nav-item {
+        -webkit-tap-highlight-color: rgba(99, 102, 241, 0.2);
+    }
 }
