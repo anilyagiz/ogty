@@ -24,26 +24,52 @@ const DEVICE_TYPES = {
     vehicle: {
         name: 'Araç',
         icon: 'fa-car',
-        brands: ['Mercedes', 'BMW', 'Audi', 'Volkswagen', 'Ford', 'Toyota', 'Renault', 'Fiat'],
-        models: ['Vito', 'Sprinter', '320d', 'A4', 'Passat', 'Transit', 'Corolla', 'Megane']
+        brands: [
+            { brand: 'Mercedes', models: ['Vito', 'Sprinter', 'C-Class', 'E-Class'] },
+            { brand: 'BMW', models: ['320d', '520d', 'X3', 'X5'] },
+            { brand: 'Audi', models: ['A4', 'A6', 'Q5', 'Q7'] },
+            { brand: 'Volkswagen', models: ['Passat', 'Golf', 'Tiguan', 'Caddy'] },
+            { brand: 'Ford', models: ['Transit', 'Focus', 'Fiesta', 'Ranger'] },
+            { brand: 'Toyota', models: ['Corolla', 'Camry', 'RAV4', 'Hilux'] },
+            { brand: 'Renault', models: ['Megane', 'Clio', 'Kadjar', 'Talisman'] },
+            { brand: 'Fiat', models: ['Egea', 'Doblo', 'Tipo', '500X'] }
+        ]
     },
     robot: {
         name: 'Robot',
         icon: 'fa-robot',
-        brands: ['ABB', 'KUKA', 'Fanuc', 'Yaskawa', 'Universal Robots', 'Kawasaki'],
-        models: ['IRB 6700', 'KR QUANTEC', 'M-20iD', 'GP180', 'UR10e', 'RS080N']
+        brands: [
+            { brand: 'ABB', models: ['IRB 6700', 'IRB 4600', 'IRB 2600', 'IRB 1200'] },
+            { brand: 'KUKA', models: ['KR QUANTEC', 'KR AGILUS', 'KR CYBERTECH', 'KR FORTEC'] },
+            { brand: 'FANUC', models: ['M-20iD', 'M-710iC', 'R-2000iC', 'LR Mate'] },
+            { brand: 'Yaskawa', models: ['GP180', 'GP25', 'HC10', 'MH24'] },
+            { brand: 'Universal Robots', models: ['UR10e', 'UR5e', 'UR3e', 'UR16e'] },
+            { brand: 'Kawasaki', models: ['RS080N', 'RS010N', 'BX200L', 'CP180L'] }
+        ]
     },
     computer: {
         name: 'Bilgisayar',
         icon: 'fa-desktop',
-        brands: ['Siemens', 'Allen-Bradley', 'Schneider', 'Mitsubishi', 'Dell', 'HP'],
-        models: ['S7-1500', 'ControlLogix', 'Modicon M580', 'MELSEC', 'OptiPlex', 'ProDesk']
+        brands: [
+            { brand: 'Siemens', models: ['S7-1500', 'S7-1200', 'S7-300', 'S7-400'] },
+            { brand: 'Allen-Bradley', models: ['ControlLogix', 'CompactLogix', 'MicroLogix', 'GuardLogix'] },
+            { brand: 'Schneider', models: ['Modicon M580', 'Modicon M340', 'Modicon M221', 'Modicon M241'] },
+            { brand: 'Mitsubishi', models: ['MELSEC', 'iQ-R', 'iQ-F', 'FX5U'] },
+            { brand: 'Dell', models: ['OptiPlex', 'Precision', 'Latitude', 'Vostro'] },
+            { brand: 'HP', models: ['ProDesk', 'EliteDesk', 'Z Workstation', 'ProBook'] }
+        ]
     },
     equipment: {
         name: 'Üretim Ekipmanı',
         icon: 'fa-industry',
-        brands: ['Haas', 'DMG Mori', 'Mazak', 'Trumpf', 'Bosch', 'Schneider'],
-        models: ['VF-2', 'DMU 50', 'Integrex i-200', 'TruLaser', 'Rexroth', 'TeSys']
+        brands: [
+            { brand: 'Haas', models: ['VF-2', 'VF-4', 'ST-20', 'EC-400'] },
+            { brand: 'DMG MORI', models: ['DMU 50', 'DMU 75', 'NLX 2500', 'CTX beta'] },
+            { brand: 'Mazak', models: ['Integrex i-200', 'Variaxis i-600', 'Quick Turn', 'VCN-530C'] },
+            { brand: 'TRUMPF', models: ['TruLaser', 'TruPunch', 'TruBend', 'TruMatic'] },
+            { brand: 'Bosch Rexroth', models: ['Rexroth IndraDrive', 'Rexroth CNC', 'IndraMotion', 'ctrlX'] },
+            { brand: 'Schneider', models: ['TeSys', 'Altivar', 'Lexium', 'Modicon'] }
+        ]
     }
 };
 
@@ -160,13 +186,18 @@ function generateDevices(count = 40) {
         const typeConfig = DEVICE_TYPES[deviceType];
         const city = CITIES[Math.floor(Math.random() * CITIES.length)];
         
+        // Select brand and matching model
+        const brandObj = typeConfig.brands[Math.floor(Math.random() * typeConfig.brands.length)];
+        const brand = brandObj.brand;
+        const model = brandObj.models[Math.floor(Math.random() * brandObj.models.length)];
+        
         let device = {
             id: `dev_${i + 1}`,
             type: deviceType,
             typeName: typeConfig.name,
             icon: typeConfig.icon,
-            brand: typeConfig.brands[Math.floor(Math.random() * typeConfig.brands.length)],
-            model: typeConfig.models[Math.floor(Math.random() * typeConfig.models.length)],
+            brand: brand,
+            model: model,
             online: Math.random() > 0.15,
             city,
             lat: 38 + Math.random() * 4,
